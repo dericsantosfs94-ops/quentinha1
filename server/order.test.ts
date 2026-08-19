@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatOrderMessage } from "../shared/order";
+import { buildWhatsAppUrl, formatOrderMessage } from "../shared/order";
 
 describe("WhatsApp order summary", () => {
   it("formats delivery details and subtotal", () => {
@@ -17,5 +17,13 @@ describe("WhatsApp order summary", () => {
     expect(result).toContain("Pagamento: na entrega/retirada");
     expect(result).toContain("Observações: Sem cebola");
     expect(result).not.toContain("Entrega:");
+  });
+
+  it("builds an encoded WhatsApp URL with payment and order details", () => {
+    const url = buildWhatsAppUrl({ customerName: "Carlos", fulfillment: "pickup", payment: "pix", lines: [{ name: "Prato da foto 01", quantity: 2, price: 25 }], subtotal: 50 }, "5521988678298");
+    expect(url).toContain("https://api.whatsapp.com/send?phone=5521988678298&text=");
+    expect(decodeURIComponent(url)).toContain("Pagamento: Pix pelo WhatsApp");
+    expect(decodeURIComponent(url)).toContain("2x Prato da foto 01");
+    expect(decodeURIComponent(url)).toContain("Subtotal: R$\u00a050,00");
   });
 });

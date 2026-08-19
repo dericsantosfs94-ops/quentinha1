@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { trackMenuEvent } from "@/lib/analytics";
-import { formatOrderMessage } from "@shared/order";
+import { buildWhatsAppUrl } from "@shared/order";
 import { ArrowRight, CakeSlice, ChevronDown, CircleAlert, Clock3, Coffee, MapPin, Minus, Plus, ShoppingBag, Soup, Trash2, Truck, Utensils, X } from "lucide-react";
 
 type Category = { id: string; name: string; icon: "soup" | "utensils" | "cup-soda" | "cake-slice" };
@@ -74,8 +74,8 @@ export default function Home() {
   function sendOrder() {
     trackMenuEvent("begin_checkout", { items: cart.length, value: subtotal });
     if (!customerName.trim() || (fulfillment === "delivery" && !address.trim()) || cart.length === 0) return;
-    const message = formatOrderMessage({ customerName, fulfillment, payment, address, notes, lines: cart, subtotal });
-    window.open(`https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    const message = buildWhatsAppUrl({ customerName, fulfillment, payment, address, notes, lines: cart, subtotal }, whatsappNumber);
+    window.open(message, "_blank", "noopener,noreferrer");
   }
 
   return (

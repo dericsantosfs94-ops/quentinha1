@@ -7,3 +7,7 @@ export function formatOrderMessage(order: OrderDraft) {
   const payment = order.payment === "pix" ? "Pagamento: Pix pelo WhatsApp" : "Pagamento: na entrega/retirada";
   return `Olá, Cantina do Chalé!\n\nGostaria de fazer um pedido.\n\nNome: ${order.customerName.trim()}\n${destination}\n${payment}\n\n${items}\n\nSubtotal: ${order.subtotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}${order.notes?.trim() ? `\nObservações: ${order.notes.trim()}` : ""}`;
 }
+
+export function buildWhatsAppUrl(order: OrderDraft, phone: string) {
+  return `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(formatOrderMessage(order))}`;
+}

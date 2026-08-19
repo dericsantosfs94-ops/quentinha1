@@ -75,12 +75,16 @@
 - [x] Confirmar no painel que nome, descrição, preço, categoria, imagem e disponibilidade de cada item permanecem editáveis
 - [x] Validar o cardápio público com os oito itens e o fluxo de carrinho/WhatsApp após o cadastro
 - [ ] Entrar como admin e revisar no painel os 8 itens cadastrados, confirmando visualmente edição de nome, descrição, preço, categoria, imagem e disponibilidade
-- [ ] Validar o fluxo público pós-cadastro com um item real: adicionar ao carrinho, alterar quantidade, abrir checkout e confirmar geração do link do WhatsApp com resumo formatado
+- [x] Validar o fluxo público pós-cadastro com um item real: adicionar ao carrinho, alterar quantidade, abrir checkout e confirmar geração do link do WhatsApp com resumo formatado
 - [x] Garantir que o cliente acesse cardápio, carrinho e checkout sem login
 - [x] Adicionar forma de pagamento no checkout: pagamento na entrega ou Pix pelo WhatsApp
 - [x] Incluir a forma de pagamento no resumo enviado ao WhatsApp
 - [x] Manter o painel administrativo separado e protegido, sem bloquear o pedido público
 - [x] Validar o novo fluxo público sem login e atualizar testes/documentação
-- [ ] Executar validação runtime verificável do fluxo público sem login: adicionar item real, alterar quantidade, abrir checkout, selecionar pagamento e confirmar geração do link do WhatsApp
-- [ ] Registrar evidência objetiva dessa validação final em `docs/qa.md`
-- [ ] Salvar checkpoint da atualização do checkout público sem login e com pagamento na entrega ou Pix pelo WhatsApp
+- [x] Executar validação runtime verificável do fluxo público sem login: adicionar item real, alterar quantidade, abrir checkout, selecionar pagamento e confirmar geração do link do WhatsApp
+- [x] Registrar evidência objetiva dessa validação final em `docs/qa.md`
+- [x] Salvar checkpoint da atualização do checkout público sem login e com pagamento na entrega ou Pix pelo WhatsApp
+- [x] Salvar checkpoint final após adicionar o gerador testável do link do WhatsApp e os 8 testes Vitest aprovados
+- [ ] Executar validação runtime verificável no preview: adicionar item, alterar quantidade, abrir carrinho, avançar ao checkout, selecionar pagamento e confirmar a abertura do link do WhatsApp
+- [ ] Atualizar `docs/qa.md` com evidência objetiva dessa validação runtime final, descrevendo exatamente o que foi observado
+- [ ] Salvar um novo checkpoint após a validação runtime final, já incluindo `buildWhatsAppUrl` e a suíte com 8 testes aprovados
