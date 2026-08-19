@@ -122,3 +122,7 @@
 - [x] INCIDENTE DE RECUPERAÇÃO: logo oficial do cliente e oito fotos do cardápio confirmadas visualmente na home restaurada
 - [x] INCIDENTE DE RECUPERAÇÃO: TypeScript, 12 testes Vitest e build original aprovados após a recuperação
 - [x] INCIDENTE DE RECUPERAÇÃO: confirmar no domínio publicado, fora do preview, que a versão restaurada permanece disponível — captura visual confirmou logo oficial e fotos dos oito pratos
+
+- [x] Atualizar todos os textos de endereço para Rua Malvino Ferreira de Andrade, 689 — Santo Aleixo, Magé — RJ
+- [x] Adicionar acesso discreto e claro ao painel `/admin` no storefront público
+- [x] Validar que `/admin` mantém login/proteção e que o cliente continua pedindo sem login
