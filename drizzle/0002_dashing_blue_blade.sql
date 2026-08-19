@@ -1,0 +1,1 @@
+ALTER TABLE `menu_products` ADD `featuredOfDay` boolean DEFAULT false NOT NULL;

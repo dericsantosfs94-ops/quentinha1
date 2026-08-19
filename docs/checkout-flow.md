@@ -1,8 +1,8 @@
 # Fluxo de pedido
 
-O cliente percorre o cardápio, adiciona itens ao carrinho e acompanha o subtotal em tempo real. No checkout, informa o nome, escolhe entre entrega e retirada, fornece o endereço quando necessário, escolhe pagamento na entrega/retirada ou Pix pelo WhatsApp e pode acrescentar observações. Nenhuma etapa exige conta ou login do cliente.
+O cliente percorre o cardápio, adiciona itens ao carrinho e acompanha o subtotal em tempo real. No checkout, informa o nome, escolhe entre entrega e retirada, fornece o endereço quando necessário, escolhe cartão de crédito na entrega/retirada, cartão de débito na entrega/retirada ou Pix via WhatsApp — com a chave enviada pela Cantina depois do pedido e pode acrescentar observações. Nenhuma etapa exige conta ou login do cliente.
 
-A aplicação não processa pagamento nem cria checkout próprio. Ao enviar, abre exclusivamente `https://api.whatsapp.com/send` para o número comercial da Cantina (`5521988678298`) com o resumo do pedido pré-preenchido. O cliente revisa e envia a mensagem no próprio WhatsApp; a confirmação final continua sob responsabilidade do restaurante.
+A aplicação não processa pagamento nem cria checkout próprio. No Pix, a página não exibe a chave: ela apenas envia a especificação do pedido para que a Cantina responda pelo WhatsApp com a chave e as instruções. Ao enviar, abre exclusivamente `https://api.whatsapp.com/send` para o número comercial da Cantina (`5521988678298`) com o resumo do pedido pré-preenchido. O cliente revisa e envia a mensagem no próprio WhatsApp; a confirmação final continua sob responsabilidade do restaurante.
 
 O status aberto/fechado vem da tabela `restaurant_settings`, é alterável pelo administrador e é exibido no hero. Quando a consulta pública ainda não possui configuração persistida, a interface assume aberto apenas como estado inicial de disponibilidade visual, sem bloquear o contato.
 

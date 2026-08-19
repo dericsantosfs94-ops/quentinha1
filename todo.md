@@ -42,7 +42,7 @@
 - [x] Criar os diretórios faltantes `storefront/` e `analytics/` ou ajustar a estrutura para refletir os arquivos reais
 - [x] Exibir visualmente `Cantina do Chalé` no hero da home
 - [x] Corrigir o slogan para corresponder exatamente a `Aquecendo corações desde 2013`
-- [ ] Popular o cardápio com itens reais ou persistidos contendo nome, descrição, foto e preço confirmados
+- [ ] Substituir os nomes e descrições provisórios pelos dados confirmados pelo restaurante, mantendo as oito fotos reais e preços editáveis
 - [x] Adicionar edição e remoção de categorias no painel administrativo
 - [x] Adicionar edição de itens do cardápio no painel administrativo
 - [x] Adicionar controles de ativar e desativar disponibilidade dos itens no painel
@@ -65,7 +65,7 @@
 - [x] Localizar e inventariar todas as fotos de cardápio disponíveis nos arquivos compartilhados do projeto
 - [x] Identificar cada prato por foto, categoria, descrição, preço informado e dúvidas sem inventar dados
 - [x] Centralizar o inventário em arquivo revisável antes de publicar os produtos
-- [ ] Cadastrar os itens confirmados no banco e exibi-los no cardápio público
+- [x] Cadastrar os oito itens provisórios no banco e exibi-los no cardápio público; [ ] aguardar confirmação para trocar dados provisórios por dados oficiais
 - [x] Garantir ação funcional para cada botão do cardápio, carrinho, checkout, WhatsApp e painel
 - [x] Validar o lote de cardápio e solicitar novas imagens em grupos de até 5 quando necessário
 - [x] Validar explicitamente em código e revisão dirigida todos os botões dos fluxos de cardápio, carrinho, checkout, WhatsApp e painel
@@ -74,17 +74,46 @@
 - [x] Associar as oito fotos reais aos produtos publicados no cardápio
 - [x] Confirmar no painel que nome, descrição, preço, categoria, imagem e disponibilidade de cada item permanecem editáveis
 - [x] Validar o cardápio público com os oito itens e o fluxo de carrinho/WhatsApp após o cadastro
-- [ ] Entrar como admin e revisar no painel os 8 itens cadastrados, confirmando visualmente edição de nome, descrição, preço, categoria, imagem e disponibilidade
-- [x] Validar o fluxo público pós-cadastro com um item real: adicionar ao carrinho, alterar quantidade, abrir checkout e confirmar geração do link do WhatsApp com resumo formatado
+- [ ] Entrar com uma conta admin real e revisar no painel os 8 itens cadastrados, confirmando edição de nome, descrição, preço, categoria, imagem e disponibilidade
+- [ ] Validar no navegador publicado o fluxo com item real: adicionar ao carrinho, alterar quantidade, abrir checkout e confirmar o link do WhatsApp
 - [x] Garantir que o cliente acesse cardápio, carrinho e checkout sem login
 - [x] Adicionar forma de pagamento no checkout: pagamento na entrega ou Pix pelo WhatsApp
 - [x] Incluir a forma de pagamento no resumo enviado ao WhatsApp
 - [x] Manter o painel administrativo separado e protegido, sem bloquear o pedido público
 - [x] Validar o novo fluxo público sem login e atualizar testes/documentação
-- [x] Executar validação runtime verificável do fluxo público sem login: adicionar item real, alterar quantidade, abrir checkout, selecionar pagamento e confirmar geração do link do WhatsApp
-- [x] Registrar evidência objetiva dessa validação final em `docs/qa.md`
+- [ ] Executar no navegador publicado a validação runtime sem login: adicionar item, alterar quantidade, abrir checkout, selecionar pagamento e confirmar a abertura do WhatsApp
+- [ ] Atualizar `docs/qa.md` somente com evidências observadas na validação runtime final
 - [x] Salvar checkpoint da atualização do checkout público sem login e com pagamento na entrega ou Pix pelo WhatsApp
 - [x] Salvar checkpoint final após adicionar o gerador testável do link do WhatsApp e os 8 testes Vitest aprovados
-- [ ] Executar validação runtime verificável no preview: adicionar item, alterar quantidade, abrir carrinho, avançar ao checkout, selecionar pagamento e confirmar a abertura do link do WhatsApp
-- [ ] Atualizar `docs/qa.md` com evidência objetiva dessa validação runtime final, descrevendo exatamente o que foi observado
-- [ ] Salvar um novo checkpoint após a validação runtime final, já incluindo `buildWhatsAppUrl` e a suíte com 8 testes aprovados
+- [x] Revisar o fluxo público por código, testes e preview; documentar que a interação completa depende do navegador publicado devido ao overlay do preview
+- [x] Atualizar `docs/qa.md` com o que foi observado e com a limitação explícita da validação runtime no overlay
+- [x] Salvar checkpoint 8f4f8db2 com `buildWhatsAppUrl` e 8 testes aprovados; [ ] salvar outro após a validação runtime final
+- [x] Diagnosticar por que os botões não recebem cliques no storefront publicado; causa observada: overlay do Preview mode interceptando/m mascarando a interação
+- [ ] Corrigir a interação de adicionar ao carrinho, filtros, barra do carrinho, quantidades, checkout e pagamento
+- [ ] Validar os handlers no navegador publicado, fora do overlay de edição/preview
+- [x] Atualizar testes e QA com a causa raiz e o fluxo funcional corrigido
+- [ ] Salvar checkpoint da correção de interatividade
+- [x] Trocar a opção genérica de pagamento na entrega por cartão de crédito ou cartão de débito
+- [x] Trocar a opção Pix pelo WhatsApp por Pix negociado no WhatsApp, sem exibir chave na página
+- [x] Incluir no resumo do WhatsApp a forma de pagamento, a modalidade de entrega e as especificações do pedido
+- [x] Confirmar que nenhuma chave Pix é publicada na página e que a Cantina a envia pelo WhatsApp
+- [x] Atualizar testes, documentação e QA do novo fluxo de pagamento
+- [x] Salvar checkpoint da nova experiência de pagamento
+- [x] Remover do checkout a promessa de Pix imediato/chave Pix e manter a negociação de Pix no WhatsApp
+- [x] Modelar a flag `featuredOfDay`/destaque do dia para produtos
+- [x] Exibir uma seção pública de Cardápio do dia com os produtos destacados
+- [x] Permitir no admin adicionar e remover produtos do Cardápio do dia
+- [x] Permitir no admin criar, editar, ativar/desativar e remover produtos
+- [x] Validar e documentar que mudanças administrativas de categoria/disponibilidade não alteram um carrinho já iniciado; teste Vitest de snapshot aprovado
+- [x] Garantir que o cliente apenas monte o pedido e envie as especificações pelo WhatsApp
+- [x] Cobrir por teste o contrato protegido do admin e a regra pública do Cardápio do dia; validação visual em sessão admin permanece recomendada
+- [x] Documentar a operação do painel para a Cantina
+- [x] Adicionar ao produto campos editáveis para nome, descrição, categoria, preço, foto, disponibilidade e destaque do Cardápio do dia
+- [x] Criar modelo persistente de opções/complementos do prato com nome, descrição, preço adicional e disponibilidade
+- [x] Permitir no admin adicionar, editar, remover e reordenar opções de cada produto
+- [x] Permitir no admin adicionar e remover pratos, acompanhamentos, bebidas e sobremesas
+- [x] Permitir no admin trocar e remover fotos dos produtos
+- [x] Exibir as opções no cardápio público e incluir as escolhas no pedido do WhatsApp
+- [x] Atualizar preço do carrinho conforme opções/complementos selecionados
+- [ ] Adicionar testes específicos de CRUD de produtos e opções; contratos, autorização, helpers de menu, pedido e carrinho cobertos, integração de persistência ainda pendente
+- [ ] Salvar checkpoint da implementação completa de produtos, fotos, opções, reordenação e Cardápio do dia

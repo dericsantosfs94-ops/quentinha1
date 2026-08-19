@@ -15,6 +15,20 @@
       "when": 1787170678545,
       "tag": "0001_orange_spitfire",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787174308741,
+      "tag": "0002_dashing_blue_blade",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1787174401840,
+      "tag": "0003_glorious_lucky_pierre",
+      "breakpoints": true
     }
   ]
 }

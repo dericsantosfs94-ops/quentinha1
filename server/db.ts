@@ -1,6 +1,6 @@
 import { and, asc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, menuCategories, menuProducts, restaurantSettings, users } from "../drizzle/schema";
+import { InsertUser, menuCategories, menuProductOptions, menuProducts, restaurantSettings, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -38,22 +38,24 @@ export async function getUserByOpenId(openId: string) {
 export async function listMenu() {
   const db = await getDb();
   if (!db) return { categories: [], products: [], isOpen: true };
-  const [categories, products, settings] = await Promise.all([
+  const [categories, products, options, settings] = await Promise.all([
     db.select().from(menuCategories).where(eq(menuCategories.active, true)).orderBy(asc(menuCategories.sortOrder), asc(menuCategories.name)),
     db.select().from(menuProducts).where(eq(menuProducts.available, true)).orderBy(asc(menuProducts.sortOrder), asc(menuProducts.name)),
+    db.select().from(menuProductOptions).where(eq(menuProductOptions.available, true)).orderBy(asc(menuProductOptions.sortOrder), asc(menuProductOptions.name)),
     db.select().from(restaurantSettings).limit(1),
   ]);
-  return { categories, products, isOpen: settings[0]?.isOpen ?? true };
+  return { categories, products: products.map((product) => ({ ...product, options: options.filter((option) => option.productId === product.id) })), isOpen: settings[0]?.isOpen ?? true };
 }
 
 export async function listAdminMenu() {
   const db = await getDb(); if (!db) return { categories: [], products: [], isOpen: true };
-  const [categories, products, settings] = await Promise.all([
+  const [categories, products, options, settings] = await Promise.all([
     db.select().from(menuCategories).orderBy(asc(menuCategories.sortOrder), asc(menuCategories.name)),
     db.select().from(menuProducts).orderBy(asc(menuProducts.sortOrder), asc(menuProducts.name)),
+    db.select().from(menuProductOptions).orderBy(asc(menuProductOptions.sortOrder), asc(menuProductOptions.name)),
     db.select().from(restaurantSettings).limit(1),
   ]);
-  return { categories, products, isOpen: settings[0]?.isOpen ?? true };
+  return { categories, products: products.map((product) => ({ ...product, options: options.filter((option) => option.productId === product.id) })), isOpen: settings[0]?.isOpen ?? true };
 }
 
 export async function createCategory(input: { name: string; slug: string; icon: string }) {
@@ -74,15 +76,48 @@ export async function deleteCategory(id: number) {
   return listAdminMenu();
 }
 
-export async function createProduct(input: { categoryId: number; name: string; description: string; price: string; imageUrl?: string | null }) {
+export async function createProduct(input: { categoryId: number; name: string; description: string; price: string; imageUrl?: string | null; featuredOfDay: boolean }) {
   const db = await getDb(); if (!db) throw new Error("Database unavailable");
   await db.insert(menuProducts).values(input);
   return listAdminMenu();
 }
 
-export async function updateProduct(input: { id: number; categoryId: number; name: string; description: string; price: string; imageUrl?: string | null; available: boolean }) {
+export async function updateProduct(input: { id: number; categoryId: number; name: string; description: string; price: string; imageUrl?: string | null; available: boolean; featuredOfDay: boolean }) {
   const db = await getDb(); if (!db) throw new Error("Database unavailable");
   await db.update(menuProducts).set(input).where(eq(menuProducts.id, input.id));
+  return listAdminMenu();
+}
+
+export async function createProductOption(input: { productId: number; name: string; description?: string | null; priceDelta: string; available: boolean }) {
+  const db = await getDb(); if (!db) throw new Error("Database unavailable");
+  await db.insert(menuProductOptions).values(input);
+  return listAdminMenu();
+}
+
+export async function updateProductOption(input: { id: number; productId: number; name: string; description?: string | null; priceDelta: string; available: boolean }) {
+  const db = await getDb(); if (!db) throw new Error("Database unavailable");
+  await db.update(menuProductOptions).set(input).where(eq(menuProductOptions.id, input.id));
+  return listAdminMenu();
+}
+
+export async function reorderProductOption(input: { id: number; direction: "up" | "down" }) {
+  const db = await getDb(); if (!db) throw new Error("Database unavailable");
+  const current = (await db.select().from(menuProductOptions).where(eq(menuProductOptions.id, input.id)).limit(1))[0];
+  if (!current) return listAdminMenu();
+  const siblings = await db.select().from(menuProductOptions).where(eq(menuProductOptions.productId, current.productId)).orderBy(asc(menuProductOptions.sortOrder), asc(menuProductOptions.id));
+  const index = siblings.findIndex((option) => option.id === current.id);
+  const targetIndex = input.direction === "up" ? index - 1 : index + 1;
+  const target = siblings[targetIndex];
+  if (target) {
+    await db.update(menuProductOptions).set({ sortOrder: target.sortOrder }).where(eq(menuProductOptions.id, current.id));
+    await db.update(menuProductOptions).set({ sortOrder: current.sortOrder }).where(eq(menuProductOptions.id, target.id));
+  }
+  return listAdminMenu();
+}
+
+export async function deleteProductOption(id: number) {
+  const db = await getDb(); if (!db) throw new Error("Database unavailable");
+  await db.delete(menuProductOptions).where(eq(menuProductOptions.id, id));
   return listAdminMenu();
 }
 

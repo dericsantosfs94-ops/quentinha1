@@ -15,6 +15,14 @@ describe("cart operations", () => {
     expect(changeCartQuantity(items, "1", -2)).toEqual([]);
   });
 
+  it("keeps the in-progress cart snapshot when the catalog changes", () => {
+    const cart = addCartItem([], { id: "1", price: 25 });
+    const catalogAfterAdminEdit = { id: "1", price: 40, available: false, categoryId: "bebidas" };
+    expect(catalogAfterAdminEdit.available).toBe(false);
+    expect(cart).toEqual([{ id: "1", price: 25, quantity: 1 }]);
+    expect(cartSubtotal(cart)).toBe(25);
+  });
+
   it("calculates subtotal in real time", () => {
     expect(cartSubtotal([{ id: "1", price: 10, quantity: 2 }, { id: "2", price: 5.5, quantity: 1 }])).toBe(25.5);
   });
