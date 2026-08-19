@@ -121,4 +121,4 @@
 - [x] INCIDENTE DE RECUPERAÇÃO: rollback para a versão anterior, reinstalação de dependências e restauração do schema original concluídos
 - [x] INCIDENTE DE RECUPERAÇÃO: logo oficial do cliente e oito fotos do cardápio confirmadas visualmente na home restaurada
 - [x] INCIDENTE DE RECUPERAÇÃO: TypeScript, 12 testes Vitest e build original aprovados após a recuperação
-- [ ] INCIDENTE DE RECUPERAÇÃO: confirmar no domínio publicado, fora do preview, que a versão restaurada permanece disponível
+- [x] INCIDENTE DE RECUPERAÇÃO: confirmar no domínio publicado, fora do preview, que a versão restaurada permanece disponível — captura visual confirmou logo oficial e fotos dos oito pratos
