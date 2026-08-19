@@ -117,3 +117,8 @@
 - [x] Atualizar preço do carrinho conforme opções/complementos selecionados
 - [ ] Adicionar testes específicos de CRUD de produtos e opções; contratos, autorização, helpers de menu, pedido e carrinho cobertos, integração de persistência ainda pendente
 - [ ] Salvar checkpoint da implementação completa de produtos, fotos, opções, reordenação e Cardápio do dia
+
+- [x] INCIDENTE DE RECUPERAÇÃO: rollback para a versão anterior, reinstalação de dependências e restauração do schema original concluídos
+- [x] INCIDENTE DE RECUPERAÇÃO: logo oficial do cliente e oito fotos do cardápio confirmadas visualmente na home restaurada
+- [x] INCIDENTE DE RECUPERAÇÃO: TypeScript, 12 testes Vitest e build original aprovados após a recuperação
+- [ ] INCIDENTE DE RECUPERAÇÃO: confirmar no domínio publicado, fora do preview, que a versão restaurada permanece disponível
