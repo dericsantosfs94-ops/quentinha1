@@ -21,3 +21,13 @@ No domínio publicado `cantinashop-8wstdovz.manus.space`, a seção do cardápio
 Após implementar opções, upload de fotos e destaque do Cardápio do dia, a checagem TypeScript, o build de produção e a suíte Vitest foram executados com sucesso. A suíte atual possui 11 testes aprovados, incluindo seleção de produtos destacados, cálculo de adicionais, leitura do contrato administrativo e bloqueio de usuário comum. A validação visual do painel ainda requer sessão de administrador real; o fluxo público não exige login.
 
 A suíte Vitest também cobre o carrinho em andamento: um item adicionado a R$ 25,00 permanece com esse preço e quantidade mesmo quando uma representação posterior do catálogo é alterada para R$ 40,00 e indisponível. Isso documenta o comportamento de snapshot local esperado para pedidos já iniciados.
+
+
+## Validação runtime publicada — 19/08/2026
+
+No domínio publicado, sem sessão de cliente, o botão `Adicionar` colocou o item `Prato da foto 01` no carrinho e exibiu a barra fixa com `1 item` e `R$ 25,00`. O filtro `Pratos caseiros` respondeu e manteve os pratos dessa categoria visíveis. O botão `Ver pedido` abriu o carrinho; `Aumentar quantidade` alterou a quantidade para 2 e o subtotal para `R$ 50,00`. `Continuar pedido` abriu o checkout público sem login.
+
+No checkout, o nome `Cliente de teste` foi preenchido, `Retirada` removeu a necessidade de endereço e `Pix pelo WhatsApp` ficou selecionável. A interface exibiu a mensagem de que o cliente será levado ao WhatsApp e não exibiu nenhuma chave Pix. A abertura efetiva do link externo do WhatsApp não foi executada nesta sessão para não iniciar uma comunicação externa sem confirmação do usuário.
+
+
+A etapa final também foi validada: o botão `Enviar pedido no WhatsApp` gerou uma URL `api.whatsapp.com/send` para o número configurado, e a página oficial `Compartilhe no WhatsApp` exibiu o resumo pré-preenchido com nome, retirada, Pix pelo WhatsApp, quantidade 2, produto e subtotal de `R$ 50,00`. A mensagem não foi enviada; a validação limitou-se à abertura e conferência do conteúdo.

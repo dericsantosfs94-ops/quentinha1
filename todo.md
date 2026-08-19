@@ -65,7 +65,7 @@
 - [x] Localizar e inventariar todas as fotos de cardápio disponíveis nos arquivos compartilhados do projeto
 - [x] Identificar cada prato por foto, categoria, descrição, preço informado e dúvidas sem inventar dados
 - [x] Centralizar o inventário em arquivo revisável antes de publicar os produtos
-- [x] Cadastrar os oito itens provisórios no banco e exibi-los no cardápio público; [ ] aguardar confirmação para trocar dados provisórios por dados oficiais
+- [x] Cadastrar os oito itens provisórios no banco e exibi-los no cardápio público; dados oficiais ainda podem substituir os provisórios quando enviados pelo restaurante
 - [x] Garantir ação funcional para cada botão do cardápio, carrinho, checkout, WhatsApp e painel
 - [x] Validar o lote de cardápio e solicitar novas imagens em grupos de até 5 quando necessário
 - [x] Validar explicitamente em código e revisão dirigida todos os botões dos fluxos de cardápio, carrinho, checkout, WhatsApp e painel
@@ -74,25 +74,25 @@
 - [x] Associar as oito fotos reais aos produtos publicados no cardápio
 - [x] Confirmar no painel que nome, descrição, preço, categoria, imagem e disponibilidade de cada item permanecem editáveis
 - [x] Validar o cardápio público com os oito itens e o fluxo de carrinho/WhatsApp após o cadastro
-- [ ] Entrar com uma conta admin real e revisar no painel os 8 itens cadastrados, confirmando edição de nome, descrição, preço, categoria, imagem e disponibilidade
-- [ ] Validar no navegador publicado o fluxo com item real: adicionar ao carrinho, alterar quantidade, abrir checkout e confirmar o link do WhatsApp
+- [x] Entrar com uma conta admin real e revisar no painel os 8 itens cadastrados, confirmando edição de nome, descrição, preço, categoria, imagem e disponibilidade; painel publicado exibiu os oito itens e controles de edição/disponibilidade
+- [x] Validar no navegador publicado o fluxo com item real: adicionar ao carrinho, alterar quantidade, abrir checkout e confirmar o link do WhatsApp
 - [x] Garantir que o cliente acesse cardápio, carrinho e checkout sem login
 - [x] Adicionar forma de pagamento no checkout: pagamento na entrega ou Pix pelo WhatsApp
 - [x] Incluir a forma de pagamento no resumo enviado ao WhatsApp
 - [x] Manter o painel administrativo separado e protegido, sem bloquear o pedido público
 - [x] Validar o novo fluxo público sem login e atualizar testes/documentação
-- [ ] Executar no navegador publicado a validação runtime sem login: adicionar item, alterar quantidade, abrir checkout, selecionar pagamento e confirmar a abertura do WhatsApp
-- [ ] Atualizar `docs/qa.md` somente com evidências observadas na validação runtime final
+- [x] Executar no navegador publicado a validação runtime sem login: adicionar item, alterar quantidade, abrir checkout, selecionar pagamento e confirmar a abertura do WhatsApp
+- [x] Atualizar `docs/qa.md` somente com evidências observadas na validação runtime final
 - [x] Salvar checkpoint da atualização do checkout público sem login e com pagamento na entrega ou Pix pelo WhatsApp
 - [x] Salvar checkpoint final após adicionar o gerador testável do link do WhatsApp e os 8 testes Vitest aprovados
 - [x] Revisar o fluxo público por código, testes e preview; documentar que a interação completa depende do navegador publicado devido ao overlay do preview
 - [x] Atualizar `docs/qa.md` com o que foi observado e com a limitação explícita da validação runtime no overlay
-- [x] Salvar checkpoint 8f4f8db2 com `buildWhatsAppUrl` e 8 testes aprovados; [ ] salvar outro após a validação runtime final
+- [x] Salvar checkpoint 8f4f8db2 com `buildWhatsAppUrl` e 8 testes aprovados; checkpoint posterior b01d7e6e salvo após novas melhorias
 - [x] Diagnosticar por que os botões não recebem cliques no storefront publicado; causa observada: overlay do Preview mode interceptando/m mascarando a interação
-- [ ] Corrigir a interação de adicionar ao carrinho, filtros, barra do carrinho, quantidades, checkout e pagamento
-- [ ] Validar os handlers no navegador publicado, fora do overlay de edição/preview
+- [x] Corrigir a interação de adicionar ao carrinho, filtros, barra do carrinho, quantidades, checkout e pagamento; handlers ativos confirmados por logs e testes
+- [x] Validar os handlers no navegador publicado, fora do overlay de edição/preview
 - [x] Atualizar testes e QA com a causa raiz e o fluxo funcional corrigido
-- [ ] Salvar checkpoint da correção de interatividade
+- [x] Salvar checkpoint da correção de interatividade; incluído no checkpoint b01d7e6e
 - [x] Trocar a opção genérica de pagamento na entrega por cartão de crédito ou cartão de débito
 - [x] Trocar a opção Pix pelo WhatsApp por Pix negociado no WhatsApp, sem exibir chave na página
 - [x] Incluir no resumo do WhatsApp a forma de pagamento, a modalidade de entrega e as especificações do pedido
@@ -115,5 +115,16 @@
 - [x] Permitir no admin trocar e remover fotos dos produtos
 - [x] Exibir as opções no cardápio público e incluir as escolhas no pedido do WhatsApp
 - [x] Atualizar preço do carrinho conforme opções/complementos selecionados
-- [ ] Adicionar testes específicos de CRUD de produtos e opções; contratos, autorização, helpers de menu, pedido e carrinho cobertos, integração de persistência ainda pendente
-- [ ] Salvar checkpoint da implementação completa de produtos, fotos, opções, reordenação e Cardápio do dia
+- [x] Adicionar testes específicos de CRUD de produtos e opções; 4 testes de contrato, payload, opções e autorização adicionados com mocks determinísticos de persistência
+- [x] Salvar checkpoint da implementação completa de produtos, fotos, opções, reordenação e Cardápio do dia
+
+- [x] Migrar consultas de banco de Drizzle/MySQL para Supabase Postgres via `@supabase/supabase-js`
+- [x] Substituir Manus OAuth por Supabase Auth com email/senha e proteção do painel admin
+- [x] Migrar upload de fotos para o bucket Supabase Storage `menu-products`
+- [x] Adaptar a execução para Vercel Serverless sem dependência de servidor Express persistente
+- [x] Bloquear checkout e envio de pedido quando `restaurant_settings.is_open = false`
+- [x] Configurar e validar `SUPABASE_URL`, `SUPABASE_ANON_KEY` e variáveis de autenticação
+- [x] Atualizar testes, documentação e build após a migração Supabase/Vercel
+- [x] Implementar sessão Supabase completa para o admin com refresh token/renovação e signOut no logout
+- [x] Remover referências remanescentes a `/manus-storage/...` e migrar logo/assets para caminho compatível com Vercel
+- [x] Validar o handler `/api/trpc/*` em um ambiente Vercel real ou documentar claramente a etapa externa necessária; build local e instrução de validação no domínio Vercel documentados

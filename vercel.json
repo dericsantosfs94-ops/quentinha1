@@ -1,0 +1,8 @@
+{
+  "buildCommand": "pnpm vercel-build",
+  "outputDirectory": "dist/public",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/api/trpc/:path*", "destination": "/api/trpc/:path*" }
+  ]
+}

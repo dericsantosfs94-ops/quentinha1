@@ -1,136 +1,144 @@
-import { and, asc, eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, menuCategories, menuProductOptions, menuProducts, restaurantSettings, users } from "../drizzle/schema";
-import { ENV } from "./_core/env";
+import { mapUser, supabase, type AppUser, type SupabaseUserRow } from "./supabase";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
-let _db: ReturnType<typeof drizzle> | null = null;
+type CategoryRow = { id: number; name: string; slug: string; icon: string; sort_order: number; active: boolean; created_at: string };
+type ProductRow = { id: number; category_id: number; name: string; description: string; price: string | number; image_url: string | null; available: boolean; featured_of_day: boolean; sort_order: number; created_at: string; updated_at: string };
+type OptionRow = { id: number; product_id: number; name: string; description: string | null; price_delta: string | number; available: boolean; sort_order: number; created_at: string; updated_at: string };
 
-export async function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
-    try { _db = drizzle(process.env.DATABASE_URL); } catch (error) { console.warn("[Database] Failed to connect:", error); _db = null; }
-  }
-  return _db;
+type Category = { id: number; name: string; slug: string; icon: string; sortOrder: number; active: boolean; createdAt: Date };
+type ProductOption = { id: number; productId: number; name: string; description: string | null; priceDelta: string; available: boolean; sortOrder: number; createdAt: Date; updatedAt: Date };
+type Product = { id: number; categoryId: number; name: string; description: string; price: string; imageUrl: string | null; available: boolean; featuredOfDay: boolean; sortOrder: number; createdAt: Date; updatedAt: Date; options: ProductOption[] };
+
+function mapCategory(row: CategoryRow): Category {
+  return { id: row.id, name: row.name, slug: row.slug, icon: row.icon, sortOrder: row.sort_order, active: row.active, createdAt: new Date(row.created_at) };
 }
 
-export async function upsertUser(user: InsertUser): Promise<void> {
-  if (!user.openId) throw new Error("User openId is required for upsert");
-  const db = await getDb();
-  if (!db) return;
-  const values: InsertUser = { openId: user.openId };
-  const updateSet: Record<string, unknown> = {};
-  for (const field of ["name", "email", "loginMethod"] as const) {
-    if (user[field] !== undefined) { values[field] = user[field] ?? null; updateSet[field] = user[field] ?? null; }
-  }
-  if (user.lastSignedIn !== undefined) { values.lastSignedIn = user.lastSignedIn; updateSet.lastSignedIn = user.lastSignedIn; }
-  if (user.role !== undefined) { values.role = user.role; updateSet.role = user.role; }
-  else if (user.openId === ENV.ownerOpenId) { values.role = "admin"; updateSet.role = "admin"; }
-  values.lastSignedIn ??= new Date();
-  if (!Object.keys(updateSet).length) updateSet.lastSignedIn = new Date();
-  await db.insert(users).values(values).onDuplicateKeyUpdate({ set: updateSet });
+function mapOption(row: OptionRow): ProductOption {
+  return { id: row.id, productId: row.product_id, name: row.name, description: row.description, priceDelta: String(row.price_delta), available: row.available, sortOrder: row.sort_order, createdAt: new Date(row.created_at), updatedAt: new Date(row.updated_at) };
 }
 
-export async function getUserByOpenId(openId: string) {
-  const db = await getDb(); if (!db) return undefined;
-  const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
-  return result[0];
+function mapProduct(row: ProductRow, options: ProductOption[] = []): Product {
+  return { id: row.id, categoryId: row.category_id, name: row.name, description: row.description, price: String(row.price), imageUrl: row.image_url, available: row.available, featuredOfDay: row.featured_of_day, sortOrder: row.sort_order, createdAt: new Date(row.created_at), updatedAt: new Date(row.updated_at), options };
 }
 
-export async function listMenu() {
-  const db = await getDb();
-  if (!db) return { categories: [], products: [], isOpen: true };
-  const [categories, products, options, settings] = await Promise.all([
-    db.select().from(menuCategories).where(eq(menuCategories.active, true)).orderBy(asc(menuCategories.sortOrder), asc(menuCategories.name)),
-    db.select().from(menuProducts).where(eq(menuProducts.available, true)).orderBy(asc(menuProducts.sortOrder), asc(menuProducts.name)),
-    db.select().from(menuProductOptions).where(eq(menuProductOptions.available, true)).orderBy(asc(menuProductOptions.sortOrder), asc(menuProductOptions.name)),
-    db.select().from(restaurantSettings).limit(1),
+async function readSettings(client: SupabaseClient = supabase) {
+  const { data, error } = await client.from("restaurant_settings").select("is_open").order("id", { ascending: true }).limit(1).maybeSingle();
+  if (error) throw new Error(error.message);
+  return data?.is_open ?? true;
+}
+
+async function readMenu(includeInactive: boolean, client: SupabaseClient = supabase) {
+  const categoriesQuery = client.from("menu_categories").select("*").order("sort_order", { ascending: true }).order("name", { ascending: true });
+  const productsQuery = client.from("menu_products").select("*").order("sort_order", { ascending: true }).order("name", { ascending: true });
+  const optionsQuery = client.from("menu_product_options").select("*").order("sort_order", { ascending: true }).order("name", { ascending: true });
+  const [{ data: categoryRows, error: categoryError }, { data: productRows, error: productError }, { data: optionRows, error: optionError }, isOpen] = await Promise.all([
+    includeInactive ? categoriesQuery : categoriesQuery.eq("active", true),
+    includeInactive ? productsQuery : productsQuery.eq("available", true),
+    includeInactive ? optionsQuery : optionsQuery.eq("available", true),
+    readSettings(),
   ]);
-  return { categories, products: products.map((product) => ({ ...product, options: options.filter((option) => option.productId === product.id) })), isOpen: settings[0]?.isOpen ?? true };
+  if (categoryError) throw new Error(categoryError.message);
+  if (productError) throw new Error(productError.message);
+  if (optionError) throw new Error(optionError.message);
+  const options = ((optionRows ?? []) as OptionRow[]).map(mapOption);
+  return {
+    categories: ((categoryRows ?? []) as CategoryRow[]).map(mapCategory),
+    products: ((productRows ?? []) as ProductRow[]).map((row) => mapProduct(row, options.filter((option) => option.productId === row.id))),
+    isOpen,
+  };
 }
 
-export async function listAdminMenu() {
-  const db = await getDb(); if (!db) return { categories: [], products: [], isOpen: true };
-  const [categories, products, options, settings] = await Promise.all([
-    db.select().from(menuCategories).orderBy(asc(menuCategories.sortOrder), asc(menuCategories.name)),
-    db.select().from(menuProducts).orderBy(asc(menuProducts.sortOrder), asc(menuProducts.name)),
-    db.select().from(menuProductOptions).orderBy(asc(menuProductOptions.sortOrder), asc(menuProductOptions.name)),
-    db.select().from(restaurantSettings).limit(1),
-  ]);
-  return { categories, products: products.map((product) => ({ ...product, options: options.filter((option) => option.productId === product.id) })), isOpen: settings[0]?.isOpen ?? true };
+export async function listMenu(client: SupabaseClient = supabase) { return readMenu(false, client); }
+export async function listAdminMenu(client: SupabaseClient = supabase) { return readMenu(true, client); }
+
+export async function getUserByOpenId(openId: string, client: SupabaseClient = supabase): Promise<AppUser | undefined> {
+  const { data, error } = await client.from("users").select("*").eq("open_id", openId).maybeSingle();
+  if (error) throw new Error(error.message);
+  return data ? mapUser(data as SupabaseUserRow) : undefined;
 }
 
-export async function createCategory(input: { name: string; slug: string; icon: string }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.insert(menuCategories).values(input);
-  return listAdminMenu();
+export async function upsertUser(user: { openId: string; name?: string | null; email?: string | null; loginMethod?: string | null; role?: "user" | "admin"; lastSignedIn?: Date }, client: SupabaseClient = supabase): Promise<void> {
+  const { error } = await client.from("users").upsert({ open_id: user.openId, name: user.name ?? null, email: user.email ?? null, login_method: user.loginMethod ?? "email", ...(user.role ? { role: user.role } : {}), last_signed_in: (user.lastSignedIn ?? new Date()).toISOString() }, { onConflict: "open_id" });
+  if (error) throw new Error(error.message);
 }
 
-export async function updateCategory(input: { id: number; name: string; slug: string; icon: string; active: boolean }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.update(menuCategories).set(input).where(eq(menuCategories.id, input.id));
-  return listAdminMenu();
+async function refreshAdminMenu(client: SupabaseClient = supabase) { return listAdminMenu(client); }
+
+export async function createCategory(input: { name: string; slug: string; icon: string }, client: SupabaseClient = supabase) {
+  const { error } = await client.from("menu_categories").insert({ name: input.name, slug: input.slug, icon: input.icon });
+  if (error) throw new Error(error.message);
+  return refreshAdminMenu(client);
 }
 
-export async function deleteCategory(id: number) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.delete(menuCategories).where(eq(menuCategories.id, id));
-  return listAdminMenu();
+export async function updateCategory(input: { id: number; name: string; slug: string; icon: string; active: boolean }, client: SupabaseClient = supabase) {
+  const { error } = await client.from("menu_categories").update({ name: input.name, slug: input.slug, icon: input.icon, active: input.active }).eq("id", input.id);
+  if (error) throw new Error(error.message);
+  return refreshAdminMenu(client);
 }
 
-export async function createProduct(input: { categoryId: number; name: string; description: string; price: string; imageUrl?: string | null; featuredOfDay: boolean }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.insert(menuProducts).values(input);
-  return listAdminMenu();
+export async function deleteCategory(id: number, client: SupabaseClient = supabase) {
+  const { error } = await client.from("menu_categories").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  return refreshAdminMenu(client);
 }
 
-export async function updateProduct(input: { id: number; categoryId: number; name: string; description: string; price: string; imageUrl?: string | null; available: boolean; featuredOfDay: boolean }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.update(menuProducts).set(input).where(eq(menuProducts.id, input.id));
-  return listAdminMenu();
+export async function createProduct(input: { categoryId: number; name: string; description: string; price: string; imageUrl?: string | null; featuredOfDay: boolean }, client: SupabaseClient = supabase) {
+  const { error } = await client.from("menu_products").insert({ category_id: input.categoryId, name: input.name, description: input.description, price: input.price, image_url: input.imageUrl ?? null, featured_of_day: input.featuredOfDay });
+  if (error) throw new Error(error.message);
+  return refreshAdminMenu(client);
 }
 
-export async function createProductOption(input: { productId: number; name: string; description?: string | null; priceDelta: string; available: boolean }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.insert(menuProductOptions).values(input);
-  return listAdminMenu();
+export async function updateProduct(input: { id: number; categoryId: number; name: string; description: string; price: string; imageUrl?: string | null; available: boolean; featuredOfDay: boolean }, client: SupabaseClient = supabase) {
+  const { error } = await client.from("menu_products").update({ category_id: input.categoryId, name: input.name, description: input.description, price: input.price, image_url: input.imageUrl ?? null, available: input.available, featured_of_day: input.featuredOfDay }).eq("id", input.id);
+  if (error) throw new Error(error.message);
+  return refreshAdminMenu(client);
 }
 
-export async function updateProductOption(input: { id: number; productId: number; name: string; description?: string | null; priceDelta: string; available: boolean }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.update(menuProductOptions).set(input).where(eq(menuProductOptions.id, input.id));
-  return listAdminMenu();
+export async function deleteProduct(id: number, client: SupabaseClient = supabase) {
+  const { error } = await client.from("menu_products").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  return refreshAdminMenu(client);
 }
 
-export async function reorderProductOption(input: { id: number; direction: "up" | "down" }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  const current = (await db.select().from(menuProductOptions).where(eq(menuProductOptions.id, input.id)).limit(1))[0];
-  if (!current) return listAdminMenu();
-  const siblings = await db.select().from(menuProductOptions).where(eq(menuProductOptions.productId, current.productId)).orderBy(asc(menuProductOptions.sortOrder), asc(menuProductOptions.id));
-  const index = siblings.findIndex((option) => option.id === current.id);
-  const targetIndex = input.direction === "up" ? index - 1 : index + 1;
-  const target = siblings[targetIndex];
+export async function createProductOption(input: { productId: number; name: string; description?: string | null; priceDelta: string; available: boolean }, client: SupabaseClient = supabase) {
+  const { error } = await client.from("menu_product_options").insert({ product_id: input.productId, name: input.name, description: input.description ?? null, price_delta: input.priceDelta, available: input.available });
+  if (error) throw new Error(error.message);
+  return refreshAdminMenu(client);
+}
+
+export async function updateProductOption(input: { id: number; productId: number; name: string; description?: string | null; priceDelta: string; available: boolean }, client: SupabaseClient = supabase) {
+  const { error } = await client.from("menu_product_options").update({ product_id: input.productId, name: input.name, description: input.description ?? null, price_delta: input.priceDelta, available: input.available }).eq("id", input.id);
+  if (error) throw new Error(error.message);
+  return refreshAdminMenu(client);
+}
+
+export async function reorderProductOption(input: { id: number; direction: "up" | "down" }, client: SupabaseClient = supabase) {
+  const { data: current, error: currentError } = await client.from("menu_product_options").select("*").eq("id", input.id).maybeSingle();
+  if (currentError) throw new Error(currentError.message);
+  if (!current) return refreshAdminMenu(client);
+  const { data: siblings, error: siblingError } = await client.from("menu_product_options").select("*").eq("product_id", current.product_id).order("sort_order", { ascending: true }).order("id", { ascending: true });
+  if (siblingError) throw new Error(siblingError.message);
+  const index = (siblings ?? []).findIndex((option) => option.id === current.id);
+  const target = (siblings ?? [])[input.direction === "up" ? index - 1 : index + 1];
   if (target) {
-    await db.update(menuProductOptions).set({ sortOrder: target.sortOrder }).where(eq(menuProductOptions.id, current.id));
-    await db.update(menuProductOptions).set({ sortOrder: current.sortOrder }).where(eq(menuProductOptions.id, target.id));
+    const first = await client.from("menu_product_options").update({ sort_order: target.sort_order }).eq("id", current.id);
+    if (first.error) throw new Error(first.error.message);
+    const second = await client.from("menu_product_options").update({ sort_order: current.sort_order }).eq("id", target.id);
+    if (second.error) throw new Error(second.error.message);
   }
-  return listAdminMenu();
+  return refreshAdminMenu(client);
 }
 
-export async function deleteProductOption(id: number) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.delete(menuProductOptions).where(eq(menuProductOptions.id, id));
-  return listAdminMenu();
+export async function deleteProductOption(id: number, client: SupabaseClient = supabase) {
+  const { error } = await client.from("menu_product_options").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  return refreshAdminMenu(client);
 }
 
-export async function deleteProduct(id: number) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.delete(menuProducts).where(eq(menuProducts.id, id));
-  return listAdminMenu();
-}
-
-export async function setRestaurantStatus(isOpen: boolean) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  const current = await db.select().from(restaurantSettings).limit(1);
-  if (current[0]) await db.update(restaurantSettings).set({ isOpen }).where(eq(restaurantSettings.id, current[0].id));
-  else await db.insert(restaurantSettings).values({ isOpen });
-  return listAdminMenu();
+export async function setRestaurantStatus(isOpen: boolean, client: SupabaseClient = supabase) {
+  const { data: current, error: currentError } = await client.from("restaurant_settings").select("id").order("id", { ascending: true }).limit(1).maybeSingle();
+  if (currentError) throw new Error(currentError.message);
+  const result = current ? await client.from("restaurant_settings").update({ is_open: isOpen }).eq("id", current.id) : await client.from("restaurant_settings").insert({ is_open: isOpen });
+  if (result.error) throw new Error(result.error.message);
+  return refreshAdminMenu(client);
 }
