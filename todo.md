@@ -61,4 +61,26 @@
 - [x] Corrigir `Rendered more hooks than during the previous render` na home, mantendo todos os hooks antes de qualquer retorno condicional
 - [x] Validar a correção com TypeScript, testes, build e screenshot do preview
 - [x] Salvar checkpoint da correção do bug de hooks
-- [ ] Salvar um novo checkpoint após a correção do bug de hooks, com a versão atual da home já validada por TypeScript, testes, build e screenshot
+- [x] Salvar um novo checkpoint após a correção do bug de hooks, com a versão atual da home já validada por TypeScript, testes, build e screenshot
+- [x] Localizar e inventariar todas as fotos de cardápio disponíveis nos arquivos compartilhados do projeto
+- [x] Identificar cada prato por foto, categoria, descrição, preço informado e dúvidas sem inventar dados
+- [x] Centralizar o inventário em arquivo revisável antes de publicar os produtos
+- [ ] Cadastrar os itens confirmados no banco e exibi-los no cardápio público
+- [x] Garantir ação funcional para cada botão do cardápio, carrinho, checkout, WhatsApp e painel
+- [x] Validar o lote de cardápio e solicitar novas imagens em grupos de até 5 quando necessário
+- [x] Validar explicitamente em código e revisão dirigida todos os botões dos fluxos de cardápio, carrinho, checkout, WhatsApp e painel
+- [x] Solicitar ao usuário o próximo lote de até 5 fotos e/ou a confirmação de nome, descrição e preço de cada prato para destravar a publicação do cardápio
+- [x] Cadastrar os oito pratos identificados com preço provisório de R$ 25,00 e marcar o valor como provisório para edição futura
+- [x] Associar as oito fotos reais aos produtos publicados no cardápio
+- [x] Confirmar no painel que nome, descrição, preço, categoria, imagem e disponibilidade de cada item permanecem editáveis
+- [x] Validar o cardápio público com os oito itens e o fluxo de carrinho/WhatsApp após o cadastro
+- [ ] Entrar como admin e revisar no painel os 8 itens cadastrados, confirmando visualmente edição de nome, descrição, preço, categoria, imagem e disponibilidade
+- [ ] Validar o fluxo público pós-cadastro com um item real: adicionar ao carrinho, alterar quantidade, abrir checkout e confirmar geração do link do WhatsApp com resumo formatado
+- [x] Garantir que o cliente acesse cardápio, carrinho e checkout sem login
+- [x] Adicionar forma de pagamento no checkout: pagamento na entrega ou Pix pelo WhatsApp
+- [x] Incluir a forma de pagamento no resumo enviado ao WhatsApp
+- [x] Manter o painel administrativo separado e protegido, sem bloquear o pedido público
+- [x] Validar o novo fluxo público sem login e atualizar testes/documentação
+- [ ] Executar validação runtime verificável do fluxo público sem login: adicionar item real, alterar quantidade, abrir checkout, selecionar pagamento e confirmar geração do link do WhatsApp
+- [ ] Registrar evidência objetiva dessa validação final em `docs/qa.md`
+- [ ] Salvar checkpoint da atualização do checkout público sem login e com pagamento na entrega ou Pix pelo WhatsApp

@@ -1,0 +1,15 @@
+{
+  "status": "publicado_com_precos_provisorios",
+  "preco_provisorio_aplicado": 25.00,
+  "observacao": "As identificações visuais são preliminares e os valores são provisórios. Nomes comerciais, descrições, ingredientes e preços podem ser editados no painel da Cantina.",
+  "itens": [
+    {"foto":"/manus-storage/prato-01_788db711.webp","arquivo":"703702503_18092429000195562_4346384967589564133_n.webp","identificacao_visual":"Prato feito com arroz à jardineira, farofa e filés empanados","categoria_sugerida":"pratos","nome_oficial":null,"descricao_confirmada":false,"preco":25.00,"preco_confirmado":false},
+    {"foto":"/manus-storage/prato-02_5f7ab550.webp","arquivo":"714611740_18094082732195562_586483555522513248_n.webp","identificacao_visual":"Prato feito com proteína ensopada, legumes coloridos e farofa","categoria_sugerida":"pratos","nome_oficial":null,"descricao_confirmada":false,"preco":25.00,"preco_confirmado":false},
+    {"foto":"/manus-storage/prato-03_ae008691.jpg","arquivo":"740304484_1392693066248288_5555301643638019246_n.jpg","identificacao_visual":"Prato com massa, molho vermelho e peça de carne","categoria_sugerida":"pratos","nome_oficial":null,"descricao_confirmada":false,"preco":25.00,"preco_confirmado":false},
+    {"foto":"/manus-storage/prato-04_42f7ea80.webp","arquivo":"742429315_18097635542195562_3119902013101429138_n.webp","identificacao_visual":"Carne acebolada com batata frita e farofa","categoria_sugerida":"pratos","nome_oficial":null,"descricao_confirmada":false,"preco":25.00,"preco_confirmado":false},
+    {"foto":"/manus-storage/prato-05_ac9ac15c.webp","arquivo":"743270083_18097724030195562_9161301827351666902_n.webp","identificacao_visual":"Duas porções de carne assada ou bovina, farofa, arroz, massa e bolinhos fritos","categoria_sugerida":"pratos","nome_oficial":null,"descricao_confirmada":false,"preco":25.00,"preco_confirmado":false},
+    {"foto":"/manus-storage/prato-06_bdbd513a.webp","arquivo":"745144514_18097822838195562_5224116159661058091_n.webp","identificacao_visual":"Prato com farofa, couve refogada e frango ou ensopado com molho vermelho","categoria_sugerida":"pratos","nome_oficial":null,"descricao_confirmada":false,"preco":25.00,"preco_confirmado":false},
+    {"foto":"/manus-storage/prato-07_95508fc4.webp","arquivo":"746041507_18097930121195562_5503783865122038318_n.webp","identificacao_visual":"Bife grelhado com batata frita, salada de maionese e farofa","categoria_sugerida":"pratos","nome_oficial":null,"descricao_confirmada":false,"preco":25.00,"preco_confirmado":false},
+    {"foto":"/manus-storage/prato-08_9bdf0dc2.webp","arquivo":"750273986_18098548025195562_4379460231960620740_n.webp","identificacao_visual":"Carne ao molho com batatas, arroz e farofa","categoria_sugerida":"pratos","nome_oficial":null,"descricao_confirmada":false,"preco":25.00,"preco_confirmado":false}
+  ]
+}

@@ -1,6 +1,6 @@
 # Fluxo de pedido
 
-O cliente percorre o cardápio, adiciona itens ao carrinho e acompanha o subtotal em tempo real. No checkout, informa o nome, escolhe entre entrega e retirada, fornece o endereço quando necessário e pode acrescentar observações.
+O cliente percorre o cardápio, adiciona itens ao carrinho e acompanha o subtotal em tempo real. No checkout, informa o nome, escolhe entre entrega e retirada, fornece o endereço quando necessário, escolhe pagamento na entrega/retirada ou Pix pelo WhatsApp e pode acrescentar observações. Nenhuma etapa exige conta ou login do cliente.
 
 A aplicação não processa pagamento nem cria checkout próprio. Ao enviar, abre exclusivamente `https://api.whatsapp.com/send` para o número comercial da Cantina (`5521988678298`) com o resumo do pedido pré-preenchido. O cliente revisa e envia a mensagem no próprio WhatsApp; a confirmação final continua sob responsabilidade do restaurante.
 
