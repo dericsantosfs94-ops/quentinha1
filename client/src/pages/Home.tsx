@@ -48,13 +48,13 @@ export default function Home() {
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const menuQuery = trpc.menu.public.useQuery();
-  if (menuQuery.isLoading) return <div className="flex min-h-screen items-center justify-center bg-[#fff8ef] text-[#8b1e23]"><div className="text-center"><img src="/manus-storage/logo_d54b5be6.png" alt="" className="mx-auto h-20 w-20 animate-pulse rounded-full" /><p className="mt-4 font-display text-2xl">Preparando o cardápio…</p></div></div>;
-  if (menuQuery.isError) return <div className="flex min-h-screen flex-col items-center justify-center bg-[#fff8ef] px-5 text-center"><img src="/manus-storage/logo_d54b5be6.png" alt="Cantina do Chalé" className="h-20 w-20 rounded-full" /><h1 className="font-display mt-5 text-3xl text-[#8b1e23]">O cardápio não carregou</h1><p className="mt-2 max-w-sm text-[#765e54]">Tente novamente ou fale com a Cantina pelo WhatsApp.</p><button onClick={() => menuQuery.refetch()} className="breathe mt-5 rounded-full bg-[#ff6b35] px-5 py-3 font-extrabold text-[#2b211d]">Tentar novamente</button></div>;
   const categories = (menuQuery.data?.categories?.length ? menuQuery.data.categories : defaultCategories).map((category) => ({ ...category, id: String(category.id), icon: (category.icon ?? "utensils") as Category["icon"] }));
   const products = menuQuery.data?.products?.length ? menuQuery.data.products.map((product) => ({ ...product, id: String(product.id), categoryId: String(product.categoryId), price: Number(product.price), available: Boolean(product.available) })) : fallbackProducts;
   const isOpen = menuQuery.data?.isOpen ?? true;
   const visibleProducts = useMemo(() => products.filter((item) => item.available && (activeCategory === "todos" || item.categoryId === activeCategory)), [activeCategory, products]);
   useEffect(() => { trackMenuEvent("view_item_list", { category: activeCategory, items: visibleProducts.length }); }, [activeCategory, visibleProducts.length]);
+  if (menuQuery.isLoading) return <div className="flex min-h-screen items-center justify-center bg-[#fff8ef] text-[#8b1e23]"><div className="text-center"><img src="/manus-storage/logo_d54b5be6.png" alt="" className="mx-auto h-20 w-20 animate-pulse rounded-full" /><p className="mt-4 font-display text-2xl">Preparando o cardápio…</p></div></div>;
+  if (menuQuery.isError) return <div className="flex min-h-screen flex-col items-center justify-center bg-[#fff8ef] px-5 text-center"><img src="/manus-storage/logo_d54b5be6.png" alt="Cantina do Chalé" className="h-20 w-20 rounded-full" /><h1 className="font-display mt-5 text-3xl text-[#8b1e23]">O cardápio não carregou</h1><p className="mt-2 max-w-sm text-[#765e54]">Tente novamente ou fale com a Cantina pelo WhatsApp.</p><button onClick={() => menuQuery.refetch()} className="breathe mt-5 rounded-full bg-[#ff6b35] px-5 py-3 font-extrabold text-[#2b211d]">Tentar novamente</button></div>;
   const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 

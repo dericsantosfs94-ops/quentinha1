@@ -57,4 +57,8 @@
 - [x] Substituir os prompts de edição de item por formulário completo com nome, descrição, preço, categoria e imagem
 - [x] Implementar estados explícitos de loading e erro na home pública para `menuQuery` e atualizar `docs/qa.md` com essa validação real
 - [x] Salvar um novo checkpoint final após implementar os estados da home
-- [ ] Salvar um novo checkpoint final após as alterações recentes da home, painel, QA e validações
+- [x] Salvar um novo checkpoint final após as alterações recentes da home, painel, QA e validações
+- [x] Corrigir `Rendered more hooks than during the previous render` na home, mantendo todos os hooks antes de qualquer retorno condicional
+- [x] Validar a correção com TypeScript, testes, build e screenshot do preview
+- [x] Salvar checkpoint da correção do bug de hooks
+- [ ] Salvar um novo checkpoint após a correção do bug de hooks, com a versão atual da home já validada por TypeScript, testes, build e screenshot
