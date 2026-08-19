@@ -1,0 +1,41 @@
+# Project TODO
+
+- [ ] Definir e documentar tokens de design da Cantina do Chalé com base terrosa, laranja #FF6B35 e tipografia artesanal
+- [ ] Criar README com arquitetura, decisões técnicas, execução local, manutenção e publicação
+- [ ] Estruturar diretórios de design, storefront, conteúdo, documentação e analytics
+- [ ] Implementar página inicial com o nome exato "Cantina do Chalé"
+- [ ] Exibir o slogan exato "Aquecendo corações desde 2013"
+- [ ] Exibir a localização exata "Santo Aleixo/Magé-RJ"
+- [ ] Implementar CTA para abrir o cardápio
+- [ ] Implementar cardápio digital com categorias, nome, descrição, foto e preço
+- [ ] Organizar conteúdo inicial do cardápio sem inventar preços ou avaliações
+- [ ] Implementar adição e remoção de itens no carrinho
+- [ ] Implementar controle de quantidade e subtotal em tempo real
+- [ ] Implementar barra de carrinho fixa no rodapé em telas móveis
+- [ ] Implementar formulário de checkout com nome do cliente
+- [ ] Implementar escolha entre entrega e retirada
+- [ ] Implementar campo de endereço quando a opção for entrega
+- [ ] Gerar link exclusivo do WhatsApp com resumo formatado do pedido
+- [ ] Garantir que o envio do pedido seja exclusivamente via WhatsApp
+- [ ] Implementar indicador de restaurante aberto/fechado na página inicial
+- [ ] Implementar configuração do status do restaurante no painel administrativo
+- [ ] Implementar login e proteção de acesso do painel administrativo
+- [ ] Implementar gerenciamento administrativo de categorias
+- [ ] Implementar gerenciamento administrativo de itens do cardápio
+- [ ] Implementar ativação e desativação de itens disponíveis
+- [ ] Persistir categorias, produtos, disponibilidade e status do restaurante no banco
+- [ ] Instrumentar eventos básicos de visualização, adição ao carrinho e início do pedido
+- [ ] Criar testes Vitest para carrinho, subtotal, resumo WhatsApp e autorização administrativa
+- [ ] Validar responsividade mobile-first, acessibilidade, contraste e estados vazios
+- [ ] Executar checagens TypeScript, testes e build
+- [ ] Salvar checkpoint final antes da publicação
+- [x] Usar exclusivamente a logo oficial enviada em `logo.png` no cabeçalho, favicon/branding e painel, ignorando as demais logos
+- [x] Aplicar a logo oficial no painel administrativo e em outras áreas de branding relevantes
+- [x] Atualizar o favicon e os metadados de branding para usar a logo oficial
+- [x] Revisar o projeto para remover ou substituir usos remanescentes de logos antigas
+- [x] Fazer uma varredura completa do projeto por referências visuais antigas e documentar os arquivos revisados
+- [x] Substituir ou remover qualquer uso remanescente de logos antigas e só então remarcar a revisão de branding como concluída
+- [x] Executar e salvar uma auditoria completa sem truncamento das referências visuais e dos arquivos de imagem do projeto, listando todos os arquivos revisados
+- [x] Se a auditoria identificar qualquer asset ou referência antiga, substituí-la ou removê-la e então remarcar a revisão de branding como concluída
+- [x] Revisar o conteúdo de `docs/branding-audit-full.txt` e documentar explicitamente se não existem referências antigas remanescentes
+- [x] Se houver qualquer referência visual antiga na auditoria final, removê-la ou substituí-la e só então remarcar a conclusão

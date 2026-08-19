@@ -1,0 +1,14 @@
+{
+  "categories": [
+    {"id":"pratos","name":"Pratos caseiros","icon":"soup"},
+    {"id":"acompanhamentos","name":"Acompanhamentos","icon":"utensils"},
+    {"id":"bebidas","name":"Bebidas","icon":"cup-soda"},
+    {"id":"sobremesas","name":"Sobremesas","icon":"cake-slice"}
+  ],
+  "products": [],
+  "reviewNotes": [
+    "As fotos do cardápio ainda serão recebidas e identificadas na Fase 3.",
+    "Nenhum preço foi presumido. Preços pendentes devem ser confirmados antes da publicação.",
+    "Não incluir avaliações, depoimentos ou avaliações simuladas."
+  ]
+}
