@@ -5,7 +5,7 @@ import { httpBatchLink, TRPCClientError } from "@trpc/client";
 import { createRoot } from "react-dom/client";
 import superjson from "superjson";
 import App from "./App";
-import { startLogin } from "./const";
+import { getSupabaseAccessToken } from "./lib/supabase";
 import "./index.css";
 
 const queryClient = new QueryClient();
@@ -18,7 +18,9 @@ const redirectToLoginIfUnauthorized = (error: unknown) => {
 
   if (!isUnauthorized) return;
 
-  startLogin();
+  // Admin login is handled explicitly by the Supabase email/password form.
+  // Never redirect automatically to the legacy Manus OAuth portal.
+  console.warn("Authentication required; waiting for explicit Supabase login.");
 };
 
 queryClient.getQueryCache().subscribe(event => {
@@ -43,19 +45,16 @@ const trpcClient = trpc.createClient({
       url: "/api/trpc",
       transformer: superjson,
       headers() {
-        // Preview auto-login fallback: when the browser blocks iframe cookies
-        // (Safari ITP / private browsing / WebView), the runtime mirrors the
-        // session into sessionStorage so we can forward it as a Bearer token.
-        // The regular OAuth cookie flow keeps working and takes priority server-side.
+        const supabaseToken = getSupabaseAccessToken();
+        if (supabaseToken) return { Authorization: `Bearer ${supabaseToken}` };
+        // Keep the restored Manus Preview fallback for legacy sessions only.
         try {
           const raw = sessionStorage.getItem("manus-cookie");
           if (raw) {
             const prefix = `${COOKIE_NAME}=`;
             const pair = raw.split(";").find(s => s.trim().startsWith(prefix));
             const token = pair?.trim().slice(prefix.length);
-            if (token) {
-              return { Authorization: `Bearer ${token}` };
-            }
+            if (token) return { Authorization: `Bearer ${token}` };
           }
         } catch {
           // sessionStorage unavailable

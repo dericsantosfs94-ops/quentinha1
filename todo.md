@@ -130,3 +130,14 @@
 - [x] Adicionar ao final da Home uma seção discreta de cobertura de entrega junto de Atendimento
 - [x] Organizar as áreas da imagem: Batatal, Cavado, Ponte Ezequiel, Andorinhas, Poço Escuro, Paineira, Centro, Chalé, Picos 1 e 2, Santo Aleixo, Cascata, Gandé, BNH e Cachoeirinha
 - [x] Validar legibilidade mobile/desktop e publicar a área de cobertura
+
+- [x] Diagnosticar por que o admin entra com sessão antiga e não solicita a conta correta do administrador — rollback havia restaurado Manus OAuth
+- [x] Garantir que a rota `/admin` use a autenticação configurada e não um login automático indevido — formulário Supabase explícito, sem redirecionamento Manus e sem fallback backend
+- [ ] Corrigir controles não clicáveis/não editáveis do painel de status, categorias e produtos
+- [ ] Validar o painel sem alterar nem apagar o catálogo existente
+- [x] Restringir o acesso administrativo ao usuário Supabase `admimsupabase@proton.me`, sem armazenar senha e sem aceitar sessão Manus
+- [x] Migrar a tela de login/logout do admin para Supabase Auth mantendo o catálogo MySQL/Drizzle intacto
+- [x] Garantir que a sessão Supabase autenticada seja reconhecida pelos procedimentos administrativos atuais — contexto tRPC valida somente Bearer Supabase; 3 testes de autenticação aprovados
+- [x] Configurar `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` com as variáveis públicas fornecidas e validar o endpoint Auth
+- [ ] Publicar a correção do link `/admin` para abrir somente o formulário Supabase email/senha e eliminar o redirecionamento Manus no domínio
+- [ ] Validar no domínio publicado que `/admin` exibe e-mail/senha, sem navegar para `manus.im/app-auth`
