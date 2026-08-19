@@ -126,3 +126,7 @@
 - [x] Atualizar todos os textos de endereço para Rua Malvino Ferreira de Andrade, 689 — Santo Aleixo, Magé — RJ
 - [x] Adicionar acesso discreto e claro ao painel `/admin` no storefront público
 - [x] Validar que `/admin` mantém login/proteção e que o cliente continua pedindo sem login
+
+- [x] Adicionar ao final da Home uma seção discreta de cobertura de entrega junto de Atendimento
+- [x] Organizar as áreas da imagem: Batatal, Cavado, Ponte Ezequiel, Andorinhas, Poço Escuro, Paineira, Centro, Chalé, Picos 1 e 2, Santo Aleixo, Cascata, Gandé, BNH e Cachoeirinha
+- [x] Validar legibilidade mobile/desktop e publicar a área de cobertura
