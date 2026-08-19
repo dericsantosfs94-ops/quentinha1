@@ -1,34 +1,34 @@
 # Project TODO
 
-- [ ] Definir e documentar tokens de design da Cantina do Chalé com base terrosa, laranja #FF6B35 e tipografia artesanal
-- [ ] Criar README com arquitetura, decisões técnicas, execução local, manutenção e publicação
-- [ ] Estruturar diretórios de design, storefront, conteúdo, documentação e analytics
-- [ ] Implementar página inicial com o nome exato "Cantina do Chalé"
-- [ ] Exibir o slogan exato "Aquecendo corações desde 2013"
-- [ ] Exibir a localização exata "Santo Aleixo/Magé-RJ"
-- [ ] Implementar CTA para abrir o cardápio
-- [ ] Implementar cardápio digital com categorias, nome, descrição, foto e preço
-- [ ] Organizar conteúdo inicial do cardápio sem inventar preços ou avaliações
-- [ ] Implementar adição e remoção de itens no carrinho
-- [ ] Implementar controle de quantidade e subtotal em tempo real
-- [ ] Implementar barra de carrinho fixa no rodapé em telas móveis
-- [ ] Implementar formulário de checkout com nome do cliente
-- [ ] Implementar escolha entre entrega e retirada
-- [ ] Implementar campo de endereço quando a opção for entrega
-- [ ] Gerar link exclusivo do WhatsApp com resumo formatado do pedido
-- [ ] Garantir que o envio do pedido seja exclusivamente via WhatsApp
-- [ ] Implementar indicador de restaurante aberto/fechado na página inicial
-- [ ] Implementar configuração do status do restaurante no painel administrativo
-- [ ] Implementar login e proteção de acesso do painel administrativo
-- [ ] Implementar gerenciamento administrativo de categorias
-- [ ] Implementar gerenciamento administrativo de itens do cardápio
-- [ ] Implementar ativação e desativação de itens disponíveis
-- [ ] Persistir categorias, produtos, disponibilidade e status do restaurante no banco
-- [ ] Instrumentar eventos básicos de visualização, adição ao carrinho e início do pedido
-- [ ] Criar testes Vitest para carrinho, subtotal, resumo WhatsApp e autorização administrativa
-- [ ] Validar responsividade mobile-first, acessibilidade, contraste e estados vazios
-- [ ] Executar checagens TypeScript, testes e build
-- [ ] Salvar checkpoint final antes da publicação
+- [x] Definir e documentar tokens de design da Cantina do Chalé com base terrosa, laranja #FF6B35 e tipografia artesanal
+- [x] Criar README com arquitetura, decisões técnicas, execução local, manutenção e publicação
+- [x] Estruturar diretórios de design, storefront, conteúdo, documentação e analytics
+- [x] Implementar página inicial com o nome exato "Cantina do Chalé"
+- [x] Exibir o slogan exato "Aquecendo corações desde 2013"
+- [x] Exibir a localização exata "Santo Aleixo/Magé-RJ"
+- [x] Implementar CTA para abrir o cardápio
+- [x] Implementar cardápio digital com categorias, nome, descrição, foto e preço
+- [x] Organizar conteúdo inicial do cardápio sem inventar preços ou avaliações
+- [x] Implementar adição e remoção de itens no carrinho
+- [x] Implementar controle de quantidade e subtotal em tempo real
+- [x] Implementar barra de carrinho fixa no rodapé em telas móveis
+- [x] Implementar formulário de checkout com nome do cliente
+- [x] Implementar escolha entre entrega e retirada
+- [x] Implementar campo de endereço quando a opção for entrega
+- [x] Gerar link exclusivo do WhatsApp com resumo formatado do pedido
+- [x] Garantir que o envio do pedido seja exclusivamente via WhatsApp
+- [x] Implementar indicador de restaurante aberto/fechado na página inicial
+- [x] Implementar configuração do status do restaurante no painel administrativo
+- [x] Implementar login e proteção de acesso do painel administrativo
+- [x] Implementar gerenciamento administrativo de categorias
+- [x] Implementar gerenciamento administrativo de itens do cardápio
+- [x] Implementar ativação e desativação de itens disponíveis
+- [x] Persistir categorias, produtos, disponibilidade e status do restaurante no banco
+- [x] Instrumentar eventos básicos de visualização, adição ao carrinho e início do pedido
+- [x] Criar testes Vitest para carrinho, subtotal, resumo WhatsApp e autorização administrativa
+- [x] Validar responsividade mobile-first, acessibilidade, contraste e estados vazios
+- [x] Executar checagens TypeScript, testes e build
+- [x] Salvar checkpoint final antes da publicação
 - [x] Usar exclusivamente a logo oficial enviada em `logo.png` no cabeçalho, favicon/branding e painel, ignorando as demais logos
 - [x] Aplicar a logo oficial no painel administrativo e em outras áreas de branding relevantes
 - [x] Atualizar o favicon e os metadados de branding para usar a logo oficial
@@ -39,3 +39,22 @@
 - [x] Se a auditoria identificar qualquer asset ou referência antiga, substituí-la ou removê-la e então remarcar a revisão de branding como concluída
 - [x] Revisar o conteúdo de `docs/branding-audit-full.txt` e documentar explicitamente se não existem referências antigas remanescentes
 - [x] Se houver qualquer referência visual antiga na auditoria final, removê-la ou substituí-la e só então remarcar a conclusão
+- [x] Criar os diretórios faltantes `storefront/` e `analytics/` ou ajustar a estrutura para refletir os arquivos reais
+- [x] Exibir visualmente `Cantina do Chalé` no hero da home
+- [x] Corrigir o slogan para corresponder exatamente a `Aquecendo corações desde 2013`
+- [ ] Popular o cardápio com itens reais ou persistidos contendo nome, descrição, foto e preço confirmados
+- [x] Adicionar edição e remoção de categorias no painel administrativo
+- [x] Adicionar edição de itens do cardápio no painel administrativo
+- [x] Adicionar controles de ativar e desativar disponibilidade dos itens no painel
+- [x] Instrumentar eventos de visualização do cardápio além de add_to_cart e begin_checkout
+- [x] Adicionar testes Vitest para carrinho, subtotal e autorização administrativa
+- [x] Validar responsividade em mobile e desktop e documentar checagens de acessibilidade, contraste e estados vazios/erro
+- [x] Salvar um novo checkpoint final após todas as alterações recentes do storefront, painel, banco e testes
+- [x] Adicionar UI para editar categorias existentes no painel administrativo
+- [x] Completar a edição de itens do cardápio no painel com formulário para nome, descrição, preço, categoria e imagem
+- [x] Implementar estados explícitos de loading e erro para a home e o painel administrativo, e atualizar `docs/qa.md`
+- [x] Trocar a edição de categorias para usar a mutação `menu.categories.update` com UI real de edição
+- [x] Substituir os prompts de edição de item por formulário completo com nome, descrição, preço, categoria e imagem
+- [x] Implementar estados explícitos de loading e erro na home pública para `menuQuery` e atualizar `docs/qa.md` com essa validação real
+- [x] Salvar um novo checkpoint final após implementar os estados da home
+- [ ] Salvar um novo checkpoint final após as alterações recentes da home, painel, QA e validações

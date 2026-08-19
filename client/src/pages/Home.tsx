@@ -1,19 +1,21 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
+import { trpc } from "@/lib/trpc";
+import { trackMenuEvent } from "@/lib/analytics";
 import { ArrowRight, CakeSlice, ChevronDown, CircleAlert, Clock3, Coffee, MapPin, Minus, Plus, ShoppingBag, Soup, Trash2, Truck, Utensils, X } from "lucide-react";
 
 type Category = { id: string; name: string; icon: "soup" | "utensils" | "cup-soda" | "cake-slice" };
-type Product = { id: string; categoryId: string; name: string; description: string; price: number; imageUrl?: string; available: boolean };
+type Product = { id: string; categoryId: string; name: string; description: string; price: number; imageUrl?: string | null; available: boolean };
 type CartLine = Product & { quantity: number };
 
-const categories: Category[] = [
+const defaultCategories: Category[] = [
   { id: "pratos", name: "Pratos caseiros", icon: "soup" },
   { id: "acompanhamentos", name: "Acompanhamentos", icon: "utensils" },
   { id: "bebidas", name: "Bebidas", icon: "cup-soda" },
   { id: "sobremesas", name: "Sobremesas", icon: "cake-slice" },
 ];
 
-const products: Product[] = [];
+const fallbackProducts: Product[] = [];
 const whatsappNumber = "5521988678298";
 const money = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 
@@ -45,12 +47,19 @@ export default function Home() {
   const [fulfillment, setFulfillment] = useState<"delivery" | "pickup">("delivery");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
-
-  const visibleProducts = useMemo(() => products.filter((item) => item.available && (activeCategory === "todos" || item.categoryId === activeCategory)), [activeCategory]);
+  const menuQuery = trpc.menu.public.useQuery();
+  if (menuQuery.isLoading) return <div className="flex min-h-screen items-center justify-center bg-[#fff8ef] text-[#8b1e23]"><div className="text-center"><img src="/manus-storage/logo_d54b5be6.png" alt="" className="mx-auto h-20 w-20 animate-pulse rounded-full" /><p className="mt-4 font-display text-2xl">Preparando o cardápio…</p></div></div>;
+  if (menuQuery.isError) return <div className="flex min-h-screen flex-col items-center justify-center bg-[#fff8ef] px-5 text-center"><img src="/manus-storage/logo_d54b5be6.png" alt="Cantina do Chalé" className="h-20 w-20 rounded-full" /><h1 className="font-display mt-5 text-3xl text-[#8b1e23]">O cardápio não carregou</h1><p className="mt-2 max-w-sm text-[#765e54]">Tente novamente ou fale com a Cantina pelo WhatsApp.</p><button onClick={() => menuQuery.refetch()} className="breathe mt-5 rounded-full bg-[#ff6b35] px-5 py-3 font-extrabold text-[#2b211d]">Tentar novamente</button></div>;
+  const categories = (menuQuery.data?.categories?.length ? menuQuery.data.categories : defaultCategories).map((category) => ({ ...category, id: String(category.id), icon: (category.icon ?? "utensils") as Category["icon"] }));
+  const products = menuQuery.data?.products?.length ? menuQuery.data.products.map((product) => ({ ...product, id: String(product.id), categoryId: String(product.categoryId), price: Number(product.price), available: Boolean(product.available) })) : fallbackProducts;
+  const isOpen = menuQuery.data?.isOpen ?? true;
+  const visibleProducts = useMemo(() => products.filter((item) => item.available && (activeCategory === "todos" || item.categoryId === activeCategory)), [activeCategory, products]);
+  useEffect(() => { trackMenuEvent("view_item_list", { category: activeCategory, items: visibleProducts.length }); }, [activeCategory, visibleProducts.length]);
   const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   function addToCart(product: Product) {
+    trackMenuEvent("add_to_cart", { item_id: product.id, item_name: product.name, value: product.price });
     setCart((current) => {
       const existing = current.find((line) => line.id === product.id);
       if (existing) return current.map((line) => line.id === product.id ? { ...line, quantity: line.quantity + 1 } : line);
@@ -61,6 +70,7 @@ export default function Home() {
     setCart((current) => current.flatMap((line) => line.id !== id ? [line] : line.quantity + delta <= 0 ? [] : [{ ...line, quantity: line.quantity + delta }]));
   }
   function sendOrder() {
+    trackMenuEvent("begin_checkout", { items: cart.length, value: subtotal });
     if (!customerName.trim() || (fulfillment === "delivery" && !address.trim()) || cart.length === 0) return;
     const lines = cart.map((line) => `• ${line.quantity}x ${line.name} — ${money.format(line.price * line.quantity)}`).join("%0A");
     const destination = fulfillment === "delivery" ? `Entrega: ${address.trim()}` : "Retirada na loja";
@@ -74,13 +84,13 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-5 pb-10 pt-5 sm:px-8 sm:pb-14">
           <nav className="flex items-center justify-between" aria-label="Navegação principal">
             <a href="#inicio" className="inline-flex items-center" aria-label="Cantina do Chalé"><img src="/manus-storage/logo_d54b5be6.png" alt="Cantina do Chalé Restaurante" className="h-16 w-16 rounded-full object-cover shadow-[0_8px_24px_rgba(0,0,0,.2)] sm:h-20 sm:w-20" /></a>
-            <div className="flex items-center gap-2 text-sm font-bold"><span className="h-2.5 w-2.5 rounded-full bg-[#7fe0a4] shadow-[0_0_0_4px_rgba(127,224,164,.16)]" />Aberto hoje</div>
+            <div className="flex items-center gap-2 text-sm font-bold"><span className={`h-2.5 w-2.5 rounded-full ${isOpen ? "bg-[#7fe0a4] shadow-[0_0_0_4px_rgba(127,224,164,.16)]" : "bg-[#f2b84b] shadow-[0_0_0_4px_rgba(242,184,75,.16)]"}`} />{isOpen ? "Aberto hoje" : "Fechado agora"}</div>
           </nav>
           <div id="inicio" className="grid items-end gap-8 pt-16 md:grid-cols-[1.15fr_.85fr] md:pt-24">
             <div>
               <p className="mb-4 text-xs font-extrabold uppercase tracking-[.22em] text-[#f2b84b]">Comida caseira em Santo Aleixo</p>
-              <h1 className="font-display max-w-2xl text-5xl leading-[.98] sm:text-7xl">Aquecendo corações desde 2013.</h1>
-              <p className="mt-6 max-w-lg text-base leading-7 text-white/80">Um cantinho de comida feita com cuidado, do jeitinho que lembra casa. Peça para entregar ou passe aqui para retirar.</p>
+              <h1 className="font-display max-w-2xl text-5xl leading-[.98] sm:text-7xl">Cantina do Chalé</h1><p className="mt-5 font-display text-2xl text-[#f2b84b] sm:text-3xl">Aquecendo corações desde 2013</p>
+              <p className="mt-6 max-w-lg text-base leading-7 text-white/80">Um cantinho de comida feita com cuidado, do jeitinho que lembra casa. {isOpen ? "Peça para entregar ou passe aqui para retirar." : "Confira o cardápio e fale com a gente para saber o próximo horário."}</p>
               <div className="mt-8 flex flex-wrap gap-3"><a href="#cardapio" className="breathe inline-flex min-h-12 items-center gap-2 rounded-full bg-[#ff6b35] px-6 font-extrabold text-[#2b211d]">Ver cardápio <ArrowRight size={18} /></a><a href="#onde-estamos" className="breathe inline-flex min-h-12 items-center gap-2 rounded-full border border-white/30 px-5 font-bold text-white">Santo Aleixo/Magé-RJ</a></div>
             </div>
             <div className="relative hidden min-h-[260px] overflow-hidden rounded-[2.5rem] border border-white/15 bg-white/10 p-6 backdrop-blur-sm md:block">

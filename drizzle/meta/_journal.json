@@ -8,6 +8,13 @@
       "when": 1787170010459,
       "tag": "0000_small_tyger_tiger",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1787170678545,
+      "tag": "0001_orange_spitfire",
+      "breakpoints": true
     }
   ]
 }
