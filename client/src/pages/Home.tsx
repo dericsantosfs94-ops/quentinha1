@@ -102,10 +102,6 @@ export default function Home() {
               <p className="mt-6 max-w-lg text-base leading-7 text-white/80">Um cantinho de comida feita com cuidado, do jeitinho que lembra casa. {isOpen ? "Peça para entregar ou passe aqui para retirar." : "Confira o cardápio e fale com a gente para saber o próximo horário."}</p>
               <div className="mt-8 flex flex-wrap gap-3"><a href="#cardapio" className="breathe inline-flex min-h-12 items-center gap-2 rounded-full bg-[#ff6b35] px-6 font-extrabold text-[#2b211d]">Ver cardápio <ArrowRight size={18} /></a><a href="#onde-estamos" className="breathe inline-flex min-h-12 items-center gap-2 rounded-full border border-white/30 px-5 font-bold text-white">Rua Malvino Ferreira de Andrade, 689 — Santo Aleixo, Magé — RJ</a></div>
             </div>
-            <div className="relative hidden min-h-[260px] overflow-hidden rounded-[2.5rem] border border-white/15 bg-white/10 p-6 backdrop-blur-sm md:block">
-              <div className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-[#f2b84b]/30 blur-2xl" />
-              <div className="relative flex h-full flex-col justify-between"><div className="flex items-center gap-3 text-[#f2b84b]"><Soup size={28} /><span className="text-sm font-extrabold uppercase tracking-[.18em]">Feito no capricho</span></div><p className="max-w-xs font-display text-3xl leading-tight">“Tempero de casa, conversa boa e comida que abraça.”</p><div className="flex items-center gap-2 text-sm text-white/70"><MapPin size={16} />Rua Malvino Ferreira de Andrade, 689 — Santo Aleixo, Magé — RJ</div></div>
-            </div>
           </div>
         </div>
       </header>
