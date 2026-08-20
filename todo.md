@@ -190,3 +190,8 @@
 
 - [x] Empacotar o app serverless e suas dependências dentro de `api/trpc` para eliminar `ERR_MODULE_NOT_FOUND` no runtime Vercel.
 - [x] Validar o novo bundle no endpoint público e publicar somente após resposta 200 com o catálogo.
+
+- [x] Corrigir logo quebrada no `/admin` publicado e revisar referências de branding/imagens do painel sem alterar o catálogo
+- [x] Substituir todas as referências quebradas pela logo oficial `logo.png` enviada nesta mensagem no storefront, admin, favicon e metadados
+- [x] Corrigir imagens ausentes dos pratos no carrinho e validar catálogo, carrinho e checkout com Playwright no projeto original
+- [x] Adicionar `fundo.png` como faixa de capa entre o hero vermelho e o início dos pratos, com imagem pública estável e layout responsivo
