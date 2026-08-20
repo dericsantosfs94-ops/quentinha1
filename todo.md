@@ -167,3 +167,9 @@
 
 - [x] Corrigir o deploy Vercel que está exibindo arquivos TypeScript como página, garantindo root, build command, output directory e rewrites corretos no projeto importado.
 - [x] Sincronizar a configuração corrigida no repositório usado pela Vercel e validar a home publicada da Cantina do Chalé; o catálogo externo permanece vazio até cadastrar `DATABASE_URL`.
+
+- [x] Seguir a ordem final exigida: concluir migração e validação, fazer commit, atualizar Supabase, publicar na Vercel e confirmar o link com cardápio funcionando.
+- [ ] Entregar somente o link de produção após confirmar produtos, fotos, admin e checkout no domínio Vercel.
+
+- [x] Corrigir a tela branca do domínio `cantinadochale.vercel.app` e substituir referências de imagens inacessíveis por URLs válidas do Supabase Storage.
+- [ ] Validar runtime publicado, imagens, menu e rota `/admin` antes de novo commit e deploy.

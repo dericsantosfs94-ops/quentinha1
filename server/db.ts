@@ -1,136 +1,59 @@
-import { and, asc, eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, menuCategories, menuProductOptions, menuProducts, restaurantSettings, users } from "../drizzle/schema";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { ENV } from "./_core/env";
 
-let _db: ReturnType<typeof drizzle> | null = null;
+const supabase: SupabaseClient = createClient(ENV.supabaseUrl,   process.env.SUPABASE_SERVICE_ROLE_KEY || ENV.supabaseAnonKey, {
+  auth: { persistSession: false, autoRefreshToken: false },
+});
 
-export async function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
-    try { _db = drizzle(process.env.DATABASE_URL); } catch (error) { console.warn("[Database] Failed to connect:", error); _db = null; }
+export async function getDb() { return supabase; }
+
+export type MenuCategory = { id: number; name: string; slug: string; icon: string; sortOrder: number; active: boolean; createdAt?: string };
+export type MenuProductOption = { id: number; productId: number; name: string; description: string | null; priceDelta: string; available: boolean; sortOrder: number; createdAt?: string; updatedAt?: string };
+export type MenuProduct = { id: number; categoryId: number; name: string; description: string; price: string; imageUrl: string | null; available: boolean; featuredOfDay: boolean; sortOrder: number; createdAt?: string; updatedAt?: string; options: MenuProductOption[] };
+export type MenuData = { categories: MenuCategory[]; products: MenuProduct[]; isOpen: boolean };
+
+function fail(error: { message?: string } | null, operation: string): never { throw new Error(`[Supabase] ${operation}: ${error?.message ?? "operação não concluída"}`); }
+function category(row: any): MenuCategory { return { id: row.id, name: row.name, slug: row.slug, icon: row.icon ?? "utensils", sortOrder: row.sort_order ?? 0, active: row.active ?? true, createdAt: row.created_at }; }
+function option(row: any): MenuProductOption { return { id: row.id, productId: row.product_id, name: row.name, description: row.description ?? null, priceDelta: String(row.price_delta ?? "0.00"), available: row.available ?? true, sortOrder: row.sort_order ?? 0, createdAt: row.created_at, updatedAt: row.updated_at }; }
+function product(row: any, options: MenuProductOption[]): MenuProduct { return { id: row.id, categoryId: row.category_id, name: row.name, description: row.description, price: String(row.price), imageUrl: row.image_url ?? null, available: row.available ?? true, featuredOfDay: row.featured_of_day ?? false, sortOrder: row.sort_order ?? 0, createdAt: row.created_at, updatedAt: row.updated_at, options: options.filter(item => item.productId === row.id) }; }
+
+async function loadMenu(includeUnavailable: boolean): Promise<MenuData> {
+  if (!ENV.supabaseUrl || !ENV.supabaseAnonKey) return { categories: [], products: [], isOpen: true };
+  let categoriesQuery = supabase.from("menu_categories").select("*").order("sort_order").order("name");
+  let productsQuery = supabase.from("menu_products").select("*").order("sort_order").order("name");
+  let optionsQuery = supabase.from("menu_product_options").select("*").order("sort_order").order("name");
+  if (!includeUnavailable) {
+    categoriesQuery = categoriesQuery.eq("active", true);
+    productsQuery = productsQuery.eq("available", true);
+    optionsQuery = optionsQuery.eq("available", true);
   }
-  return _db;
-}
-
-export async function upsertUser(user: InsertUser): Promise<void> {
-  if (!user.openId) throw new Error("User openId is required for upsert");
-  const db = await getDb();
-  if (!db) return;
-  const values: InsertUser = { openId: user.openId };
-  const updateSet: Record<string, unknown> = {};
-  for (const field of ["name", "email", "loginMethod"] as const) {
-    if (user[field] !== undefined) { values[field] = user[field] ?? null; updateSet[field] = user[field] ?? null; }
-  }
-  if (user.lastSignedIn !== undefined) { values.lastSignedIn = user.lastSignedIn; updateSet.lastSignedIn = user.lastSignedIn; }
-  if (user.role !== undefined) { values.role = user.role; updateSet.role = user.role; }
-  else if (user.openId === ENV.ownerOpenId) { values.role = "admin"; updateSet.role = "admin"; }
-  values.lastSignedIn ??= new Date();
-  if (!Object.keys(updateSet).length) updateSet.lastSignedIn = new Date();
-  await db.insert(users).values(values).onDuplicateKeyUpdate({ set: updateSet });
-}
-
-export async function getUserByOpenId(openId: string) {
-  const db = await getDb(); if (!db) return undefined;
-  const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
-  return result[0];
-}
-
-export async function listMenu() {
-  const db = await getDb();
-  if (!db) return { categories: [], products: [], isOpen: true };
-  const [categories, products, options, settings] = await Promise.all([
-    db.select().from(menuCategories).where(eq(menuCategories.active, true)).orderBy(asc(menuCategories.sortOrder), asc(menuCategories.name)),
-    db.select().from(menuProducts).where(eq(menuProducts.available, true)).orderBy(asc(menuProducts.sortOrder), asc(menuProducts.name)),
-    db.select().from(menuProductOptions).where(eq(menuProductOptions.available, true)).orderBy(asc(menuProductOptions.sortOrder), asc(menuProductOptions.name)),
-    db.select().from(restaurantSettings).limit(1),
+  const [categoriesResult, productsResult, optionsResult, settingsResult] = await Promise.all([
+    categoriesQuery,
+    productsQuery,
+    optionsQuery,
+    supabase.from("restaurant_settings").select("is_open").limit(1),
   ]);
-  return { categories, products: products.map((product) => ({ ...product, options: options.filter((option) => option.productId === product.id) })), isOpen: settings[0]?.isOpen ?? true };
+  if (categoriesResult.error) fail(categoriesResult.error, "carregar categorias");
+  if (productsResult.error) fail(productsResult.error, "carregar produtos");
+  if (optionsResult.error) fail(optionsResult.error, "carregar opções");
+  if (settingsResult.error) fail(settingsResult.error, "carregar status");
+  const options = (optionsResult.data ?? []).map(option);
+  return { categories: (categoriesResult.data ?? []).map(category), products: (productsResult.data ?? []).map(row => product(row, options)), isOpen: settingsResult.data?.[0]?.is_open ?? true };
 }
 
-export async function listAdminMenu() {
-  const db = await getDb(); if (!db) return { categories: [], products: [], isOpen: true };
-  const [categories, products, options, settings] = await Promise.all([
-    db.select().from(menuCategories).orderBy(asc(menuCategories.sortOrder), asc(menuCategories.name)),
-    db.select().from(menuProducts).orderBy(asc(menuProducts.sortOrder), asc(menuProducts.name)),
-    db.select().from(menuProductOptions).orderBy(asc(menuProductOptions.sortOrder), asc(menuProductOptions.name)),
-    db.select().from(restaurantSettings).limit(1),
-  ]);
-  return { categories, products: products.map((product) => ({ ...product, options: options.filter((option) => option.productId === product.id) })), isOpen: settings[0]?.isOpen ?? true };
-}
+export const listMenu = () => loadMenu(false);
+export const listAdminMenu = () => loadMenu(true);
+export async function upsertUser(_user: unknown): Promise<void> {}
+export async function getUserByOpenId(_openId: string): Promise<any> { return undefined; }
 
-export async function createCategory(input: { name: string; slug: string; icon: string }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.insert(menuCategories).values(input);
-  return listAdminMenu();
-}
-
-export async function updateCategory(input: { id: number; name: string; slug: string; icon: string; active: boolean }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.update(menuCategories).set(input).where(eq(menuCategories.id, input.id));
-  return listAdminMenu();
-}
-
-export async function deleteCategory(id: number) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.delete(menuCategories).where(eq(menuCategories.id, id));
-  return listAdminMenu();
-}
-
-export async function createProduct(input: { categoryId: number; name: string; description: string; price: string; imageUrl?: string | null; featuredOfDay: boolean }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.insert(menuProducts).values(input);
-  return listAdminMenu();
-}
-
-export async function updateProduct(input: { id: number; categoryId: number; name: string; description: string; price: string; imageUrl?: string | null; available: boolean; featuredOfDay: boolean }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.update(menuProducts).set(input).where(eq(menuProducts.id, input.id));
-  return listAdminMenu();
-}
-
-export async function createProductOption(input: { productId: number; name: string; description?: string | null; priceDelta: string; available: boolean }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.insert(menuProductOptions).values(input);
-  return listAdminMenu();
-}
-
-export async function updateProductOption(input: { id: number; productId: number; name: string; description?: string | null; priceDelta: string; available: boolean }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.update(menuProductOptions).set(input).where(eq(menuProductOptions.id, input.id));
-  return listAdminMenu();
-}
-
-export async function reorderProductOption(input: { id: number; direction: "up" | "down" }) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  const current = (await db.select().from(menuProductOptions).where(eq(menuProductOptions.id, input.id)).limit(1))[0];
-  if (!current) return listAdminMenu();
-  const siblings = await db.select().from(menuProductOptions).where(eq(menuProductOptions.productId, current.productId)).orderBy(asc(menuProductOptions.sortOrder), asc(menuProductOptions.id));
-  const index = siblings.findIndex((option) => option.id === current.id);
-  const targetIndex = input.direction === "up" ? index - 1 : index + 1;
-  const target = siblings[targetIndex];
-  if (target) {
-    await db.update(menuProductOptions).set({ sortOrder: target.sortOrder }).where(eq(menuProductOptions.id, current.id));
-    await db.update(menuProductOptions).set({ sortOrder: current.sortOrder }).where(eq(menuProductOptions.id, target.id));
-  }
-  return listAdminMenu();
-}
-
-export async function deleteProductOption(id: number) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.delete(menuProductOptions).where(eq(menuProductOptions.id, id));
-  return listAdminMenu();
-}
-
-export async function deleteProduct(id: number) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  await db.delete(menuProducts).where(eq(menuProducts.id, id));
-  return listAdminMenu();
-}
-
-export async function setRestaurantStatus(isOpen: boolean) {
-  const db = await getDb(); if (!db) throw new Error("Database unavailable");
-  const current = await db.select().from(restaurantSettings).limit(1);
-  if (current[0]) await db.update(restaurantSettings).set({ isOpen }).where(eq(restaurantSettings.id, current[0].id));
-  else await db.insert(restaurantSettings).values({ isOpen });
-  return listAdminMenu();
-}
+export async function createCategory(input: { name: string; slug: string; icon: string }) { const { error } = await supabase.from("menu_categories").insert({ name: input.name, slug: input.slug, icon: input.icon }); if (error) fail(error, "criar categoria"); return listAdminMenu(); }
+export async function updateCategory(input: { id: number; name: string; slug: string; icon: string; active: boolean }) { const { error } = await supabase.from("menu_categories").update({ name: input.name, slug: input.slug, icon: input.icon, active: input.active }).eq("id", input.id); if (error) fail(error, "atualizar categoria"); return listAdminMenu(); }
+export async function deleteCategory(id: number) { const { error } = await supabase.from("menu_categories").delete().eq("id", id); if (error) fail(error, "remover categoria"); return listAdminMenu(); }
+export async function createProduct(input: { categoryId: number; name: string; description: string; price: string; imageUrl?: string | null; featuredOfDay: boolean }) { const { error } = await supabase.from("menu_products").insert({ category_id: input.categoryId, name: input.name, description: input.description, price: input.price, image_url: input.imageUrl ?? null, featured_of_day: input.featuredOfDay }); if (error) fail(error, "criar produto"); return listAdminMenu(); }
+export async function updateProduct(input: { id: number; categoryId: number; name: string; description: string; price: string; imageUrl?: string | null; available: boolean; featuredOfDay: boolean }) { const { error } = await supabase.from("menu_products").update({ category_id: input.categoryId, name: input.name, description: input.description, price: input.price, image_url: input.imageUrl ?? null, available: input.available, featured_of_day: input.featuredOfDay }).eq("id", input.id); if (error) fail(error, "atualizar produto"); return listAdminMenu(); }
+export async function createProductOption(input: { productId: number; name: string; description?: string | null; priceDelta: string; available: boolean }) { const { error } = await supabase.from("menu_product_options").insert({ product_id: input.productId, name: input.name, description: input.description ?? null, price_delta: input.priceDelta, available: input.available }); if (error) fail(error, "criar opção"); return listAdminMenu(); }
+export async function updateProductOption(input: { id: number; productId: number; name: string; description?: string | null; priceDelta: string; available: boolean }) { const { error } = await supabase.from("menu_product_options").update({ product_id: input.productId, name: input.name, description: input.description ?? null, price_delta: input.priceDelta, available: input.available }).eq("id", input.id); if (error) fail(error, "atualizar opção"); return listAdminMenu(); }
+export async function reorderProductOption(input: { id: number; direction: "up" | "down" }) { const { data: current, error: currentError } = await supabase.from("menu_product_options").select("*").eq("id", input.id).maybeSingle(); if (currentError) fail(currentError, "buscar opção"); if (!current) return listAdminMenu(); const { data: siblings, error: siblingsError } = await supabase.from("menu_product_options").select("*").eq("product_id", current.product_id).order("sort_order").order("id"); if (siblingsError) fail(siblingsError, "buscar opções"); const index = (siblings ?? []).findIndex(item => item.id === current.id); const target = (siblings ?? [])[input.direction === "up" ? index - 1 : index + 1]; if (target) { const first = await supabase.from("menu_product_options").update({ sort_order: target.sort_order }).eq("id", current.id); if (first.error) fail(first.error, "reordenar opção atual"); const second = await supabase.from("menu_product_options").update({ sort_order: current.sort_order }).eq("id", target.id); if (second.error) fail(second.error, "reordenar opção alvo"); } return listAdminMenu(); }
+export async function deleteProductOption(id: number) { const { error } = await supabase.from("menu_product_options").delete().eq("id", id); if (error) fail(error, "remover opção"); return listAdminMenu(); }
+export async function deleteProduct(id: number) { const { error } = await supabase.from("menu_products").delete().eq("id", id); if (error) fail(error, "remover produto"); return listAdminMenu(); }
+export async function setRestaurantStatus(isOpen: boolean) { const { data: current, error: currentError } = await supabase.from("restaurant_settings").select("id").limit(1).maybeSingle(); if (currentError) fail(currentError, "buscar status"); const result = current ? await supabase.from("restaurant_settings").update({ is_open: isOpen }).eq("id", current.id) : await supabase.from("restaurant_settings").insert({ is_open: isOpen }); if (result.error) fail(result.error, "atualizar status"); return listAdminMenu(); }
