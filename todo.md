@@ -208,3 +208,4 @@
 - [x] Executar `/impeccable document` para gerar DESIGN.md com o sistema visual existente, sem publicar alterações — direção “Receita de Família” registrada
 - [ ] Implementar o shape confirmado: priorizar admin seguro, exclusão definitiva com confirmação e bloquear somente o envio quando a loja estiver fechada
 - [x] Aplicar colorização estratégica nos tokens e estados visuais da Home/Admin, preservando logo, capa, checkout e conteúdo oficial
+- [x] Aplicar refinamento tipográfico na Home/Admin: escala, pesos, medida de leitura e estados responsivos
