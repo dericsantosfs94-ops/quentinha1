@@ -215,3 +215,4 @@
 - [x] Aplicar delight seguro na Home/Admin: microcopy acolhedora, estados de pedido e detalhes visuais ligados à receita de família
 - [x] Aplicar adapt responsivo na Home/Admin: larguras extremas, touch targets, safe areas, formulários e orientação paisagem
 - [x] Executar e documentar audit técnico Impeccable da Home/Admin: acessibilidade, performance, responsividade, theming e integridade
+- [x] Aplicar polish final: semântica de diálogos, foco inicial seguro e consistência de estados sem ampliar o escopo
