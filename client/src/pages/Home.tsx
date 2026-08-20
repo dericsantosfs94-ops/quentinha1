@@ -87,7 +87,7 @@ export default function Home() {
 
   return (
     <div className="paper-texture min-h-screen overflow-x-clip pb-24">
-      <header className="relative overflow-hidden text-white">
+      <header className="hero-shell relative overflow-hidden text-white">
         <img src="https://xuzfsdvzgxaqspheifla.supabase.co/storage/v1/object/public/menu-products/branding/cantina-do-chale-cover.png" alt="Comida caseira servida em panela sobre mesa de madeira" className="absolute inset-0 h-full w-full object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#1e100b]/85 via-[#2b211d]/55 to-[#2b211d]/35" />
         <div className="relative z-10 mx-auto max-w-6xl px-5 pb-10 pt-5 sm:px-8 sm:pb-14">

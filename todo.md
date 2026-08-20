@@ -213,3 +213,4 @@
 - [x] Aplicar refinamento de layout na Home/Admin: ritmo espacial, contenção de overflow e composição responsiva
 - [x] Aplicar motion funcional e acessível na Home/Admin: feedback, entrada focal e estados de overlay com reduced-motion
 - [x] Aplicar delight seguro na Home/Admin: microcopy acolhedora, estados de pedido e detalhes visuais ligados à receita de família
+- [x] Aplicar adapt responsivo na Home/Admin: larguras extremas, touch targets, safe areas, formulários e orientação paisagem
