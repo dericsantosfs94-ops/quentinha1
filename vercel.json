@@ -1,0 +1,15 @@
+{
+  "buildCommand": "pnpm build:vercel",
+  "outputDirectory": "dist/public",
+  "framework": null,
+  "functions": {
+    "api/trpc/[trpc].ts": {
+      "runtime": "nodejs22.x",
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    { "source": "/api/trpc/:path*", "destination": "/api/trpc/[trpc]" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

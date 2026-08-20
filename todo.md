@@ -151,3 +151,16 @@
 - [x] Auditar se todas as alterações do projeto Supabase/Vercel estão commitadas localmente
 - [x] Verificar se o remoto `dericsantosfs94-ops/quentinha1` contém o commit completo do estado atual
 - [x] Sincronizar e confirmar branch/commit remoto antes de novas alterações — branch `main`, commit `41984ba`
+
+- [x] Auditar estrutura de deploy para Vercel, Hostinger e HostGator
+- [x] Validar build de produção, scripts e handler serverless
+- [x] Corrigir bloqueios de organização/configuração encontrados na auditoria
+- [x] Documentar variáveis de ambiente e matriz de compatibilidade por hospedagem
+
+- [x] Adicionar configuração Vercel e handler serverless para o tRPC
+- [x] Garantir que o build Vercel produza frontend e função sem servidor persistente
+- [x] Validar check, testes e build de produção
+- [x] Documentar variáveis necessárias na Vercel, incluindo banco, Supabase Auth e serviços legados
+
+- [x] Adicionar teste HTTP da fábrica serverless para o procedimento público `menu.public`, comprovando resposta sem `listen()` persistente na aplicação.
+- [x] Reiniciar o processo de desenvolvimento e confirmar que o erro antigo de export do schema não reaparece no log atual; TypeScript e 17 testes Vitest aprovados.
