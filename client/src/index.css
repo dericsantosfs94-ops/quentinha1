@@ -33,6 +33,9 @@ button { cursor: pointer; }
 
 .font-display { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
 .text-reading { max-width: 68ch; }
+.safe-bottom { padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
+.category-scroller { scrollbar-width: thin; scrollbar-color: #d4a017 transparent; overscroll-behavior-x: contain; scroll-snap-type: x proximity; }
+.category-scroller > * { scroll-snap-align: start; }
 .text-label { font-size: 0.75rem; line-height: 1.2; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
 .tabular-nums { font-variant-numeric: tabular-nums; }
 button, input, textarea, select { line-height: 1.35; }

@@ -210,3 +210,4 @@
 - [x] Aplicar colorização estratégica nos tokens e estados visuais da Home/Admin, preservando logo, capa, checkout e conteúdo oficial
 - [x] Aplicar refinamento tipográfico na Home/Admin: escala, pesos, medida de leitura e estados responsivos
 - [x] Atualizar o teste Playwright do carrinho para usar o primeiro produto real do catálogo; validação passou com imagem carregada e subtotal de R$ 50,00
+- [x] Aplicar refinamento de layout na Home/Admin: ritmo espacial, contenção de overflow e composição responsiva
