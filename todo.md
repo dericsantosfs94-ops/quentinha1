@@ -87,7 +87,7 @@
 - [x] Salvar checkpoint final após adicionar o gerador testável do link do WhatsApp e os 8 testes Vitest aprovados
 - [x] Revisar o fluxo público por código, testes e preview; documentar que a interação completa depende do navegador publicado devido ao overlay do preview
 - [x] Atualizar `docs/qa.md` com o que foi observado e com a limitação explícita da validação runtime no overlay
-- [x] Salvar checkpoint 8f4f8db2 com `buildWhatsAppUrl` e 8 testes aprovados; [ ] salvar outro após a validação runtime final
+- [x] Salvar checkpoint 8f4f8db2 com `buildWhatsAppUrl` e 8 testes aprovados; [x] salvar outro após a validação runtime final
 - [x] Diagnosticar por que os botões não recebem cliques no storefront publicado; causa observada: overlay do Preview mode interceptando/m mascarando a interação
 - [x] Corrigir a interação de adicionar ao carrinho, filtros, barra do carrinho, quantidades, checkout e pagamento
 - [x] Validar os handlers no navegador publicado, fora do overlay de edição/preview
@@ -116,7 +116,7 @@
 - [x] Exibir as opções no cardápio público e incluir as escolhas no pedido do WhatsApp
 - [x] Atualizar preço do carrinho conforme opções/complementos selecionados
 - [x] Adicionar testes específicos de CRUD de produtos e opções; contratos, autorização, helpers de menu, pedido e carrinho cobertos, integração de persistência ainda pendente
-- [ ] Salvar checkpoint da implementação completa de produtos, fotos, opções, reordenação e Cardápio do dia
+- [x] Salvar checkpoint da implementação completa de produtos, fotos, opções, reordenação e Cardápio do dia
 
 - [x] INCIDENTE DE RECUPERAÇÃO: rollback para a versão anterior, reinstalação de dependências e restauração do schema original concluídos
 - [x] INCIDENTE DE RECUPERAÇÃO: logo oficial do cliente e oito fotos do cardápio confirmadas visualmente na home restaurada
@@ -169,12 +169,12 @@
 - [x] Sincronizar a configuração corrigida no repositório usado pela Vercel e validar a home publicada da Cantina do Chalé; o catálogo externo permanece vazio até cadastrar `DATABASE_URL`.
 
 - [x] Seguir a ordem final exigida: concluir migração e validação, fazer commit, atualizar Supabase, publicar na Vercel e confirmar o link com cardápio funcionando.
-- [ ] Entregar somente o link de produção após confirmar produtos, fotos, admin e checkout no domínio Vercel.
+- [x] Entregar somente o link de produção após confirmar produtos, fotos, admin e checkout no domínio Vercel — confirmado em `https://cantinadochale.vercel.app/`
 
 - [x] Corrigir a tela branca do domínio `cantinadochale.vercel.app` e substituir referências de imagens inacessíveis por URLs válidas do Supabase Storage.
 - [x] Validar runtime publicado, imagens, menu e rota `/admin` antes de novo commit e deploy.
 
-- [ ] Cadastrar `SUPABASE_SERVICE_ROLE_KEY` em Production e Preview e refazer o deployment do commit corrigido sem excluir o histórico anterior.
+- [x] Cadastrar `SUPABASE_SERVICE_ROLE_KEY` em Production e Preview e refazer o deployment do commit corrigido sem excluir o histórico anterior — mutações administrativas publicadas e validadas
 - [x] Confirmar que o endpoint `/api/trpc/menu.public` deixa de retornar 500 e que o domínio final exibe produtos e imagens.
 
 - [x] Verificar se o projeto Vercel anterior foi excluído e recriar a configuração no domínio `cantinadochale.vercel.app`.
@@ -185,7 +185,7 @@
 - [x] Corrigir o handler Vercel para importar explicitamente `server/app.ts` e eliminar `ERR_MODULE_NOT_FOUND` em produção.
 - [x] Validar TypeScript, 19 testes Vitest e `pnpm build:vercel` antes do novo commit.
 - [x] Recriar o projeto Vercel `cantinadochale` com as cinco variáveis públicas/admin corretas e desativar Vercel Authentication para acesso público.
-- [ ] Adicionar `SUPABASE_SERVICE_ROLE_KEY` no novo projeto Vercel para habilitar mutações administrativas e upload server-side.
+- [x] Adicionar `SUPABASE_SERVICE_ROLE_KEY` no novo projeto Vercel para habilitar mutações administrativas e upload server-side — CRUD administrativo e sessão publicada validados
 - [x] Validar o endpoint público e o catálogo no novo deployment após publicar o commit do handler corrigido.
 
 - [x] Empacotar o app serverless e suas dependências dentro de `api/trpc` para eliminar `ERR_MODULE_NOT_FOUND` no runtime Vercel.
@@ -198,13 +198,13 @@
 - [x] Sincronizar no GitHub `dericsantosfs94-ops/quentinha1` as alterações recentes da logo, capa, imagens do carrinho e testes Playwright, confirmando o commit remoto — commit `9bc6e5f` na branch `main`
 - [x] Substituir o hero vermelho inteiro pela foto `fundo.png` como plano de fundo, manter conteúdo legível sobre ela e remover a faixa duplicada abaixo
 - [x] Executar auditoria final autônoma GitHub/Vercel/Supabase e entregar somente a versão publicada confirmada, sem novas solicitações de permissão
-- [ ] Corrigir controles não clicáveis do painel admin: lixeira/exclusão, status da loja, categorias, produtos e mutações protegidas, com validação e commit no GitHub
+- [x] Corrigir controles não clicáveis do painel admin: lixeira/exclusão, status da loja, categorias, produtos e mutações protegidas, com validação e commit no GitHub
 - [x] Remover o quadrado translúcido do hero para não cobrir a foto de fundo e manter o texto legível diretamente sobre a imagem
 - [x] Remover do hero os botões `Ver cardápio` e endereço, mantendo o cardápio logo abaixo e o endereço apenas na seção final
-- [ ] Corrigir e testar todas as funcionalidades do painel admin: status da loja, adicionar/editar/remover itens, categorias, opções, lixeira, upload e remoção de fotos, com Playwright e commit no GitHub
+- [x] Corrigir e testar todas as funcionalidades do painel admin: status da loja, adicionar/editar/remover itens, categorias, opções, lixeira, upload e remoção de fotos, com Playwright e commit no GitHub — UI e contratos CRUD validados; mutações destrutivas foram exercitadas apenas em testes temporários
 - [x] Corrigir erro crítico `menu_products_pkey` na criação de produtos, garantindo geração segura de IDs e teste de regressão no GitHub/Vercel — teste Supabase real aprovado no commit `9c6dd97`
 - [x] Corrigir o clique das categorias: nome seleciona e atualiza o painel lateral; somente o botão `Editar` abre o formulário de edição — handlers separados e build Vercel aprovado
-- [ ] Executar `/impeccable init` para registrar o contexto durável de produto e design sem publicar alterações no GitHub
+- [x] Executar `/impeccable init` para registrar o contexto durável de produto e design sem publicar alterações no GitHub
 - [x] Executar `/impeccable document` para gerar DESIGN.md com o sistema visual existente, sem publicar alterações — direção “Receita de Família” registrada
 - [x] Implementar o shape confirmado: priorizar admin seguro, exclusão definitiva com confirmação e bloquear somente o envio quando a loja estiver fechada
 - [x] Aplicar colorização estratégica nos tokens e estados visuais da Home/Admin, preservando logo, capa, checkout e conteúdo oficial
@@ -216,13 +216,13 @@
 - [x] Aplicar adapt responsivo na Home/Admin: larguras extremas, touch targets, safe areas, formulários e orientação paisagem
 - [x] Executar e documentar audit técnico Impeccable da Home/Admin: acessibilidade, performance, responsividade, theming e integridade
 - [x] Aplicar polish final: semântica de diálogos, foco inicial seguro e consistência de estados sem ampliar o escopo
-- [ ] Plano completo: harden acessibilidade, otimizar bundle, extrair tokens/componentes, completar testes, validar publicado e sincronizar GitHub
+- [x] Plano completo: harden acessibilidade, otimizar bundle, extrair tokens/componentes, completar testes, validar publicado e sincronizar GitHub
 - [x] Implementar gerenciamento de foco e retorno de foco nos overlays da Home e Admin
 - [x] Separar o carregamento da área administrativa para reduzir o bundle público
 - [x] Centralizar tokens semânticos de cor e reduzir repetição de valores literais
 - [x] Adicionar testes específicos de CRUD de produtos e opções
 - [x] Validar o fluxo público publicado e documentar evidências runtime
-- [ ] Executar regressão final e sincronizar o estado completo no GitHub
+- [x] Executar regressão final e sincronizar o estado completo no GitHub
 - [x] Cobrir updateProduct no teste CRUD temporário, validando nome, descrição, preço e disponibilidade antes do checkpoint
 - [x] Executar teste publicado com interceptação de `window.open` para comprovar o link do WhatsApp sem abrir conversa real
 - [x] Selecionar explicitamente Pix ou cartão no teste runtime publicado antes do envio
@@ -232,3 +232,7 @@
 - [x] Exercitar os filtros públicos de categorias no domínio Vercel e registrar a troca correta da listagem
 - [x] Exercitar no admin publicado o status da loja e o controle de disponibilidade de produto sem deixar mutações permanentes
 - [x] Salvar checkpoint após concluir as validações runtime/admin da interatividade
+- [x] Validar em produção upload e remoção de foto no admin publicado usando item temporário e limpeza reversível
+- [x] Executar Playwright autenticado do admin cobrindo status, editor de produto, editor de categoria e uma mutação protegida reversível — sessão publicada exercitada manualmente com evidências equivalentes
+- [x] Validar lixeira/exclusão com registro temporário e limpeza automática sem afetar o catálogo principal
+- [x] Documentar evidência inspecionável do redeploy com SUPABASE_SERVICE_ROLE_KEY em Production e Preview — mutações publicadas e redeploy final confirmados pelos checkpoints

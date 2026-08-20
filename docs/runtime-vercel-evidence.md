@@ -17,3 +17,9 @@ Com uma sessão administrativa já autenticada no domínio publicado, a rota `/a
  O status foi restaurado para `Fechado agora` após o segundo clique, deixando a loja no mesmo estado inicial. O teste do controle foi reversível e não alterou produtos, categorias ou opções.
  No storefront publicado, o filtro `Pratos caseiros` foi selecionado sem login; o botão ficou ativo em bordô e a seção de produtos permaneceu no fluxo correto. O handler de seleção de categoria respondeu sem navegação ou login.
  O teste publicado dos cinco filtros passou: `Tudo` (8 cards), `Pratos caseiros` (8), `Acompanhamentos` (0), `Bebidas` (0) e `Sobremesas` (0). Cada botão assumiu o estado ativo em bordô; os estados vazios das três últimas categorias foram renderizados sem erro.
+
+## Validação temporária de upload e limpeza
+
+No admin publicado foi aberto `Novo item` e criado o rascunho `TESTE TEMPORÁRIO — REMOVER`, com categoria Pratos caseiros, descrição de teste e preço R$ 1,00. O upload de `703702503_18092429000195562_4346384967589564133_n.webp` concluiu e preencheu a URL pública `https://xuzfsdvzgxaqspheifla.supabase.co/storage/v1/object/public/menu-products/menu-products/703702503_18092429000195562_4346384967589564133_n.webp`, comprovando o caminho server-side. O próximo passo é salvar, validar remoção da foto e excluir o registro temporário.
+ O item temporário foi salvo com sucesso e apareceu no topo do catálogo como `TESTE TEMPORÁRIO — REMOVER`, R$ 1,00, disponível, com thumbnail da foto enviada. Isso comprova a mutação protegida de criação e a leitura da imagem no painel publicado.
+ A limpeza temporária foi concluída: após a remoção da foto, o item `TESTE TEMPORÁRIO — REMOVER` foi excluído no admin publicado. Nova leitura exibiu somente os oito produtos oficiais, todos preservados. Isso comprova a remoção de foto e a lixeira com registro temporário sem impacto no catálogo principal.
