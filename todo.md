@@ -75,14 +75,14 @@
 - [x] Confirmar no painel que nome, descrição, preço, categoria, imagem e disponibilidade de cada item permanecem editáveis
 - [x] Validar o cardápio público com os oito itens e o fluxo de carrinho/WhatsApp após o cadastro
 - [ ] Entrar com uma conta admin real e revisar no painel os 8 itens cadastrados, confirmando edição de nome, descrição, preço, categoria, imagem e disponibilidade
-- [ ] Validar no navegador publicado o fluxo com item real: adicionar ao carrinho, alterar quantidade, abrir checkout e confirmar o link do WhatsApp
+- [x] Validar no navegador publicado o fluxo com item real: adicionar ao carrinho, alterar quantidade, abrir checkout e confirmar o link do WhatsApp
 - [x] Garantir que o cliente acesse cardápio, carrinho e checkout sem login
 - [x] Adicionar forma de pagamento no checkout: pagamento na entrega ou Pix pelo WhatsApp
 - [x] Incluir a forma de pagamento no resumo enviado ao WhatsApp
 - [x] Manter o painel administrativo separado e protegido, sem bloquear o pedido público
 - [x] Validar o novo fluxo público sem login e atualizar testes/documentação
-- [ ] Executar no navegador publicado a validação runtime sem login: adicionar item, alterar quantidade, abrir checkout, selecionar pagamento e confirmar a abertura do WhatsApp
-- [ ] Atualizar `docs/qa.md` somente com evidências observadas na validação runtime final
+- [x] Executar no navegador publicado a validação runtime sem login: adicionar item, alterar quantidade, abrir checkout, selecionar pagamento e confirmar a abertura do WhatsApp
+- [x] Atualizar `docs/qa.md` somente com evidências observadas na validação runtime final
 - [x] Salvar checkpoint da atualização do checkout público sem login e com pagamento na entrega ou Pix pelo WhatsApp
 - [x] Salvar checkpoint final após adicionar o gerador testável do link do WhatsApp e os 8 testes Vitest aprovados
 - [x] Revisar o fluxo público por código, testes e preview; documentar que a interação completa depende do navegador publicado devido ao overlay do preview
@@ -90,7 +90,7 @@
 - [x] Salvar checkpoint 8f4f8db2 com `buildWhatsAppUrl` e 8 testes aprovados; [ ] salvar outro após a validação runtime final
 - [x] Diagnosticar por que os botões não recebem cliques no storefront publicado; causa observada: overlay do Preview mode interceptando/m mascarando a interação
 - [ ] Corrigir a interação de adicionar ao carrinho, filtros, barra do carrinho, quantidades, checkout e pagamento
-- [ ] Validar os handlers no navegador publicado, fora do overlay de edição/preview
+- [x] Validar os handlers no navegador publicado, fora do overlay de edição/preview
 - [x] Atualizar testes e QA com a causa raiz e o fluxo funcional corrigido
 - [ ] Salvar checkpoint da correção de interatividade
 - [x] Trocar a opção genérica de pagamento na entrega por cartão de crédito ou cartão de débito
@@ -221,6 +221,10 @@
 - [x] Separar o carregamento da área administrativa para reduzir o bundle público
 - [x] Centralizar tokens semânticos de cor e reduzir repetição de valores literais
 - [x] Adicionar testes específicos de CRUD de produtos e opções
-- [ ] Validar o fluxo público publicado e documentar evidências runtime
+- [x] Validar o fluxo público publicado e documentar evidências runtime
 - [ ] Executar regressão final e sincronizar o estado completo no GitHub
 - [x] Cobrir updateProduct no teste CRUD temporário, validando nome, descrição, preço e disponibilidade antes do checkpoint
+- [x] Executar teste publicado com interceptação de `window.open` para comprovar o link do WhatsApp sem abrir conversa real
+- [x] Selecionar explicitamente Pix ou cartão no teste runtime publicado antes do envio
+- [x] Corrigir `docs/qa.md` para relatar somente evidências realmente observadas
+- [x] Documentar no QA os handlers publicados efetivamente exercitados
