@@ -7,9 +7,9 @@
   --card-foreground: #2b211d;
   --popover: #ffffff;
   --popover-foreground: #2b211d;
-  --primary: #ff6b35;
+  --primary: #e8a33d;
   --primary-foreground: #2b211d;
-  --secondary: #f2b84b;
+  --secondary: #d4a017;
   --secondary-foreground: #2b211d;
   --muted: #f3e4d5;
   --muted-foreground: #765e54;
@@ -18,7 +18,7 @@
   --destructive: #a83232;
   --destructive-foreground: #ffffff;
   --border: #ead5c1;
-  --ring: #ff6b35;
+  --ring: #d4a017;
   --radius: 1.15rem;
   --font-display: "Bree Serif", Georgia, serif;
   --font-body: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
@@ -32,8 +32,8 @@ button { cursor: pointer; }
 :focus-visible { outline: 3px solid var(--secondary); outline-offset: 3px; }
 
 .font-display { font-family: var(--font-display); }
-.paper-texture { background-image: radial-gradient(circle at 16% 12%, rgba(255,107,53,.08) 0 1px, transparent 1px), radial-gradient(circle at 72% 42%, rgba(139,30,35,.04) 0 1px, transparent 1px); background-size: 19px 19px, 23px 23px; }
-.hero-mesh { background: radial-gradient(circle at 12% 22%, rgba(242,184,75,.22), transparent 30%), radial-gradient(circle at 88% 10%, rgba(214,51,108,.18), transparent 34%), linear-gradient(135deg, #8b1e23 0%, #66171c 100%); }
+.paper-texture { background-image: radial-gradient(circle at 16% 12%, rgba(232,163,61,.08) 0 1px, transparent 1px), radial-gradient(circle at 72% 42%, rgba(139,30,35,.04) 0 1px, transparent 1px); background-size: 19px 19px, 23px 23px; }
+.hero-mesh { background: radial-gradient(circle at 12% 22%, rgba(212,160,23,.22), transparent 30%), radial-gradient(circle at 88% 10%, rgba(214,51,108,.2), transparent 34%), linear-gradient(135deg, #8b1e23 0%, #66171c 100%); }
 .breathe { transition: transform 220ms cubic-bezier(.34,1.56,.64,1), box-shadow 220ms ease, background-color 180ms ease; }
 .breathe:hover { transform: translateY(-2px); }
 .breathe:active { transform: scale(.97); }

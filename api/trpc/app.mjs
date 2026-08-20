@@ -93,8 +93,13 @@ async function upsertUser(_user) {
 async function getUserByOpenId(_openId) {
   return void 0;
 }
+async function nextMenuId(table) {
+  const { data, error } = await supabase.from(table).select("id").order("id", { ascending: false }).limit(1).maybeSingle();
+  if (error) fail(error, `obter pr\xF3ximo ID de ${table}`);
+  return Number(data?.id ?? 0) + 1;
+}
 async function createCategory(input) {
-  const { error } = await supabase.from("menu_categories").insert({ name: input.name, slug: input.slug, icon: input.icon });
+  const { error } = await supabase.from("menu_categories").insert({ id: await nextMenuId("menu_categories"), name: input.name, slug: input.slug, icon: input.icon });
   if (error) fail(error, "criar categoria");
   return listAdminMenu();
 }
@@ -109,7 +114,7 @@ async function deleteCategory(id) {
   return listAdminMenu();
 }
 async function createProduct(input) {
-  const { error } = await supabase.from("menu_products").insert({ category_id: input.categoryId, name: input.name, description: input.description, price: input.price, image_url: input.imageUrl ?? null, featured_of_day: input.featuredOfDay });
+  const { error } = await supabase.from("menu_products").insert({ id: await nextMenuId("menu_products"), category_id: input.categoryId, name: input.name, description: input.description, price: input.price, image_url: input.imageUrl ?? null, featured_of_day: input.featuredOfDay });
   if (error) fail(error, "criar produto");
   return listAdminMenu();
 }
@@ -119,7 +124,7 @@ async function updateProduct(input) {
   return listAdminMenu();
 }
 async function createProductOption(input) {
-  const { error } = await supabase.from("menu_product_options").insert({ product_id: input.productId, name: input.name, description: input.description ?? null, price_delta: input.priceDelta, available: input.available });
+  const { error } = await supabase.from("menu_product_options").insert({ id: await nextMenuId("menu_product_options"), product_id: input.productId, name: input.name, description: input.description ?? null, price_delta: input.priceDelta, available: input.available });
   if (error) fail(error, "criar op\xE7\xE3o");
   return listAdminMenu();
 }
@@ -147,6 +152,11 @@ async function reorderProductOption(input) {
 async function deleteProductOption(id) {
   const { error } = await supabase.from("menu_product_options").delete().eq("id", id);
   if (error) fail(error, "remover op\xE7\xE3o");
+  return listAdminMenu();
+}
+async function clearProductImage(id) {
+  const { error } = await supabase.from("menu_products").update({ image_url: null }).eq("id", id);
+  if (error) fail(error, "remover foto do produto");
   return listAdminMenu();
 }
 async function deleteProduct(id) {
@@ -691,6 +701,12 @@ async function storagePut(relKey, data, contentType = "application/octet-stream"
   if (error) throw new Error(`[Supabase Storage] upload: ${error.message}`);
   return { key, url: publicUrl(key) };
 }
+async function storageDelete(relKey) {
+  const key = normalizeKey(relKey);
+  const { error } = await supabase2.storage.from("menu-products").remove([key]);
+  if (error) throw new Error(`[Supabase Storage] remo\xE7\xE3o: ${error.message}`);
+  return { key };
+}
 
 // server/routers.ts
 var adminProcedure2 = protectedProcedure.use(({ ctx, next }) => {
@@ -734,6 +750,14 @@ var appRouter = router({
         const buffer = Buffer.from(payload, "base64");
         if (buffer.length > 8 * 1024 * 1024) throw new TRPCError3({ code: "BAD_REQUEST", message: "A imagem deve ter no m\xE1ximo 8 MB." });
         return storagePut(`menu-products/${input.fileName}`, buffer, contentType);
+      }),
+      removeImage: adminProcedure2.input(z2.object({ productId: z2.number().int().positive(), imageUrl: z2.string().url() })).mutation(async ({ input }) => {
+        const marker = "/storage/v1/object/public/menu-products/";
+        const markerIndex = input.imageUrl.indexOf(marker);
+        if (markerIndex < 0) throw new TRPCError3({ code: "BAD_REQUEST", message: "A foto n\xE3o pertence ao Storage do card\xE1pio." });
+        const key = decodeURIComponent(input.imageUrl.slice(markerIndex + marker.length));
+        await storageDelete(key);
+        return clearProductImage(input.productId);
       })
     }),
     status: adminProcedure2.input(z2.object({ isOpen: z2.boolean() })).mutation(({ input }) => setRestaurantStatus(input.isOpen))

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-20T03:45:00Z",
+  "title": "Design System: Cantina do Chalé",
+  "extensions": {
+    "colorMeta": {
+      "oxblood": {
+        "role": "primary",
+        "displayName": "Bordô da Cantina",
+        "canonical": "#8B1E23",
+        "tonalRamp": ["#FFF0DC", "#D98A7F", "#8B1E23", "#5E1418"]
+      },
+      "orange": {
+        "role": "primary-action",
+        "displayName": "Laranja de Ação",
+        "canonical": "#FF6B35",
+        "tonalRamp": ["#FFE3D6", "#FF9B76", "#FF6B35", "#C94A20"]
+      },
+      "amber": {
+        "role": "secondary",
+        "displayName": "Âmbar de Cozinha",
+        "canonical": "#F2B84B",
+        "tonalRamp": ["#FFF4D6", "#F7D487", "#F2B84B", "#B77A16"]
+      },
+      "cream": {
+        "role": "neutral",
+        "displayName": "Papel Creme",
+        "canonical": "#FFF8EF",
+        "tonalRamp": ["#FFFFFF", "#FFF8EF", "#F5E7D6", "#EAD5C1"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Receita impressa",
+        "purpose": "Títulos de hero, seções e nomes de marca; preservar tradição editorial."
+      },
+      "body": {
+        "displayName": "Interface clara",
+        "purpose": "Descrições, formulários, preços, ações e mensagens operacionais."
+      }
+    },
+    "shadows": [
+      {
+        "name": "logo-lift",
+        "value": "0 8px 20px rgba(139,30,35,.16)",
+        "purpose": "Elevar a logo circular sem separar da marca."
+      },
+      {
+        "name": "card-soft",
+        "value": "0 20px 70px rgba(139,30,35,.10)",
+        "purpose": "Separar cards principais do papel creme."
+      }
+    ],
+    "motion": [
+      {
+        "name": "breathe",
+        "value": "transform 160ms ease-out, opacity 160ms ease-out",
+        "purpose": "Confirmar toque em botões sem criar espetáculo."
+      }
+    ],
+    "breakpoints": {
+      "mobile": "< 640px",
+      "desktop": ">= 1024px"
+    },
+    "narrative": {
+      "northStar": "Receita de Família",
+      "overviewVoice": "Artesanal, afetiva e cuidadosa; a interface deve lembrar uma cantina real e facilitar o pedido pelo WhatsApp.",
+      "elevationPhilosophy": "Tonal layering with restrained warm shadows",
+      "componentPhilosophy": "Tactile, generous and direct",
+      "rules": [
+        "A Regra do Tempero: laranja pede ação, bordô sustenta marca, âmbar destaca.",
+        "A Regra da Receita Legível: display cria memória; sans-serif resolve a tarefa.",
+        "A foto real é prova do produto; não substituir por placeholder decorativo.",
+        "Seleção e edição administrativas devem ter alvos distintos."
+      ],
+      "dos": [
+        "Preservar logo oficial, foto de capa e fotografias reais.",
+        "Manter cardápio abaixo do hero e endereço nas seções finais.",
+        "Usar foco visível e alvos confortáveis para toque."
+      ],
+      "donts": [
+        "Não usar estética genérica de SaaS ou marketplace.",
+        "Não expor URLs técnicas do Supabase no cardápio público.",
+        "Não inventar avaliações, depoimentos ou prova social."
+      ]
+    }
+  }
+}
