@@ -214,3 +214,4 @@
 - [x] Aplicar motion funcional e acessível na Home/Admin: feedback, entrada focal e estados de overlay com reduced-motion
 - [x] Aplicar delight seguro na Home/Admin: microcopy acolhedora, estados de pedido e detalhes visuais ligados à receita de família
 - [x] Aplicar adapt responsivo na Home/Admin: larguras extremas, touch targets, safe areas, formulários e orientação paisagem
+- [x] Executar e documentar audit técnico Impeccable da Home/Admin: acessibilidade, performance, responsividade, theming e integridade
