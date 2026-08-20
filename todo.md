@@ -195,3 +195,4 @@
 - [x] Substituir todas as referências quebradas pela logo oficial `logo.png` enviada nesta mensagem no storefront, admin, favicon e metadados
 - [x] Corrigir imagens ausentes dos pratos no carrinho e validar catálogo, carrinho e checkout com Playwright no projeto original
 - [x] Adicionar `fundo.png` como faixa de capa entre o hero vermelho e o início dos pratos, com imagem pública estável e layout responsivo
+- [ ] Sincronizar no GitHub `dericsantosfs94-ops/quentinha1` as alterações recentes da logo, capa, imagens do carrinho e testes Playwright, confirmando o commit remoto
