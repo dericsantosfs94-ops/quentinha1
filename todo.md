@@ -115,7 +115,7 @@
 - [x] Permitir no admin trocar e remover fotos dos produtos
 - [x] Exibir as opções no cardápio público e incluir as escolhas no pedido do WhatsApp
 - [x] Atualizar preço do carrinho conforme opções/complementos selecionados
-- [ ] Adicionar testes específicos de CRUD de produtos e opções; contratos, autorização, helpers de menu, pedido e carrinho cobertos, integração de persistência ainda pendente
+- [x] Adicionar testes específicos de CRUD de produtos e opções; contratos, autorização, helpers de menu, pedido e carrinho cobertos, integração de persistência ainda pendente
 - [ ] Salvar checkpoint da implementação completa de produtos, fotos, opções, reordenação e Cardápio do dia
 
 - [x] INCIDENTE DE RECUPERAÇÃO: rollback para a versão anterior, reinstalação de dependências e restauração do schema original concluídos
@@ -216,3 +216,11 @@
 - [x] Aplicar adapt responsivo na Home/Admin: larguras extremas, touch targets, safe areas, formulários e orientação paisagem
 - [x] Executar e documentar audit técnico Impeccable da Home/Admin: acessibilidade, performance, responsividade, theming e integridade
 - [x] Aplicar polish final: semântica de diálogos, foco inicial seguro e consistência de estados sem ampliar o escopo
+- [ ] Plano completo: harden acessibilidade, otimizar bundle, extrair tokens/componentes, completar testes, validar publicado e sincronizar GitHub
+- [x] Implementar gerenciamento de foco e retorno de foco nos overlays da Home e Admin
+- [x] Separar o carregamento da área administrativa para reduzir o bundle público
+- [x] Centralizar tokens semânticos de cor e reduzir repetição de valores literais
+- [x] Adicionar testes específicos de CRUD de produtos e opções
+- [ ] Validar o fluxo público publicado e documentar evidências runtime
+- [ ] Executar regressão final e sincronizar o estado completo no GitHub
+- [x] Cobrir updateProduct no teste CRUD temporário, validando nome, descrição, preço e disponibilidade antes do checkpoint
