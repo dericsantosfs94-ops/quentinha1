@@ -165,5 +165,5 @@
 - [x] Adicionar teste HTTP da fábrica serverless para o procedimento público `menu.public`, comprovando resposta sem `listen()` persistente na aplicação.
 - [x] Reiniciar o processo de desenvolvimento e confirmar que o erro antigo de export do schema não reaparece no log atual; TypeScript e 17 testes Vitest aprovados.
 
-- [ ] Corrigir o deploy Vercel que está exibindo arquivos TypeScript como página, garantindo root, build command, output directory e rewrites corretos no projeto importado.
-- [ ] Sincronizar a configuração corrigida no repositório usado pela Vercel e validar a home publicada da Cantina do Chalé.
+- [x] Corrigir o deploy Vercel que está exibindo arquivos TypeScript como página, garantindo root, build command, output directory e rewrites corretos no projeto importado.
+- [x] Sincronizar a configuração corrigida no repositório usado pela Vercel e validar a home publicada da Cantina do Chalé; o catálogo externo permanece vazio até cadastrar `DATABASE_URL`.
