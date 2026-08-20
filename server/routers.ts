@@ -4,8 +4,8 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
-import { storagePut } from "./storage";
-import { createCategory, createProduct, createProductOption, deleteCategory, deleteProduct, deleteProductOption, listAdminMenu, reorderProductOption, listMenu, setRestaurantStatus, updateCategory, updateProduct, updateProductOption } from "./db";
+import { storageDelete, storagePut } from "./storage";
+import { clearProductImage, createCategory, createProduct, createProductOption, deleteCategory, deleteProduct, deleteProductOption, listAdminMenu, reorderProductOption, listMenu, setRestaurantStatus, updateCategory, updateProduct, updateProductOption } from "./db";
 
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
   if (ctx.user.role !== "admin") throw new TRPCError({ code: "FORBIDDEN", message: "Acesso restrito ao administrador." });
@@ -45,6 +45,7 @@ export const appRouter = router({
         remove: adminProcedure.input(z.object({ id: z.number().int().positive() })).mutation(({ input }) => deleteProductOption(input.id)),
       }),
       uploadImage: adminProcedure.input(z.object({ dataUrl: z.string().regex(/^data:image\/(png|jpeg|jpg|webp);base64,/), fileName: z.string().min(1).max(160) })).mutation(async ({ input }) => { const [meta, payload] = input.dataUrl.split(",", 2); const contentType = meta.match(/^data:(.*);base64$/)?.[1] ?? "image/jpeg"; const buffer = Buffer.from(payload, "base64"); if (buffer.length > 8 * 1024 * 1024) throw new TRPCError({ code: "BAD_REQUEST", message: "A imagem deve ter no máximo 8 MB." }); return storagePut(`menu-products/${input.fileName}`, buffer, contentType); }),
+      removeImage: adminProcedure.input(z.object({ productId: z.number().int().positive(), imageUrl: z.string().url() })).mutation(async ({ input }) => { const marker = "/storage/v1/object/public/menu-products/"; const markerIndex = input.imageUrl.indexOf(marker); if (markerIndex < 0) throw new TRPCError({ code: "BAD_REQUEST", message: "A foto não pertence ao Storage do cardápio." }); const key = decodeURIComponent(input.imageUrl.slice(markerIndex + marker.length)); await storageDelete(key); return clearProductImage(input.productId); }),
     }),
     status: adminProcedure.input(z.object({ isOpen: z.boolean() })).mutation(({ input }) => setRestaurantStatus(input.isOpen)),
   }),

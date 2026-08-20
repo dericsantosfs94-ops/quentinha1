@@ -22,6 +22,13 @@ export async function storagePut(relKey: string, data: Buffer | Uint8Array | str
   return { key, url: publicUrl(key) };
 }
 
+export async function storageDelete(relKey: string) {
+  const key = normalizeKey(relKey);
+  const { error } = await supabase.storage.from("menu-products").remove([key]);
+  if (error) throw new Error(`[Supabase Storage] remoção: ${error.message}`);
+  return { key };
+}
+
 export async function storageGet(relKey: string) {
   const key = normalizeKey(relKey);
   return { key, url: publicUrl(key) };
