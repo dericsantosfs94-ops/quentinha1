@@ -100,7 +100,6 @@ export default function Home() {
               <p className="mb-4 text-xs font-extrabold uppercase tracking-[.22em] text-[#f2b84b]">Comida caseira em Santo Aleixo</p>
               <h1 className="font-display max-w-2xl text-5xl leading-[.98] sm:text-7xl">Cantina do Chalé</h1><p className="mt-5 font-display text-2xl text-[#f2b84b] sm:text-3xl">Aquecendo corações desde 2013</p>
               <p className="mt-6 max-w-lg text-base leading-7 text-white/80">Um cantinho de comida feita com cuidado, do jeitinho que lembra casa. {isOpen ? "Peça para entregar ou passe aqui para retirar." : "Confira o cardápio e fale com a gente para saber o próximo horário."}</p>
-              <div className="mt-8 flex flex-wrap gap-3"><a href="#cardapio" className="breathe inline-flex min-h-12 items-center gap-2 rounded-full bg-[#ff6b35] px-6 font-extrabold text-[#2b211d]">Ver cardápio <ArrowRight size={18} /></a><a href="#onde-estamos" className="breathe inline-flex min-h-12 items-center gap-2 rounded-full border border-white/30 px-5 font-bold text-white">Rua Malvino Ferreira de Andrade, 689 — Santo Aleixo, Magé — RJ</a></div>
             </div>
           </div>
         </div>

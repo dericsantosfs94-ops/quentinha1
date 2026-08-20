@@ -199,4 +199,5 @@
 - [x] Substituir o hero vermelho inteiro pela foto `fundo.png` como plano de fundo, manter conteúdo legível sobre ela e remover a faixa duplicada abaixo
 - [x] Executar auditoria final autônoma GitHub/Vercel/Supabase e entregar somente a versão publicada confirmada, sem novas solicitações de permissão
 - [ ] Corrigir controles não clicáveis do painel admin: lixeira/exclusão, status da loja, categorias, produtos e mutações protegidas, com validação e commit no GitHub
-- [ ] Remover o quadrado translúcido do hero para não cobrir a foto de fundo e manter o texto legível diretamente sobre a imagem
+- [x] Remover o quadrado translúcido do hero para não cobrir a foto de fundo e manter o texto legível diretamente sobre a imagem
+- [ ] Remover do hero os botões `Ver cardápio` e endereço, mantendo o cardápio logo abaixo e o endereço apenas na seção final
