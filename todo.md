@@ -196,4 +196,5 @@
 - [x] Corrigir imagens ausentes dos pratos no carrinho e validar catálogo, carrinho e checkout com Playwright no projeto original
 - [x] Adicionar `fundo.png` como faixa de capa entre o hero vermelho e o início dos pratos, com imagem pública estável e layout responsivo
 - [x] Sincronizar no GitHub `dericsantosfs94-ops/quentinha1` as alterações recentes da logo, capa, imagens do carrinho e testes Playwright, confirmando o commit remoto — commit `9bc6e5f` na branch `main`
-- [ ] Substituir o hero vermelho inteiro pela foto `fundo.png` como plano de fundo, manter conteúdo legível sobre ela e remover a faixa duplicada abaixo
+- [x] Substituir o hero vermelho inteiro pela foto `fundo.png` como plano de fundo, manter conteúdo legível sobre ela e remover a faixa duplicada abaixo
+- [x] Executar auditoria final autônoma GitHub/Vercel/Supabase e entregar somente a versão publicada confirmada, sem novas solicitações de permissão
