@@ -139,8 +139,8 @@
 - [x] Migrar a tela de login/logout do admin para Supabase Auth mantendo o catálogo MySQL/Drizzle intacto
 - [x] Garantir que a sessão Supabase autenticada seja reconhecida pelos procedimentos administrativos atuais — contexto tRPC valida somente Bearer Supabase; 3 testes de autenticação aprovados
 - [x] Configurar `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` com as variáveis públicas fornecidas e validar o endpoint Auth
-- [ ] Publicar a correção do link `/admin` para abrir somente o formulário Supabase email/senha e eliminar o redirecionamento Manus no domínio
-- [ ] Validar no domínio publicado que `/admin` exibe e-mail/senha, sem navegar para `manus.im/app-auth`
+- [x] Publicar a correção do link `/admin` para abrir somente o formulário Supabase email/senha e eliminar o redirecionamento Manus no domínio
+- [x] Validar no domínio publicado que `/admin` exibe e-mail/senha, sem navegar para `manus.im/app-auth`
 - [x] Corrigir edição individual das categorias para que todas as linhas, e não apenas a primeira, abram seu próprio formulário editável — nome e botão Editar agora compartilham handler próprio com `type="button"`
 - [ ] Validar os quatro controles de categoria sem modificar os produtos existentes
 
@@ -186,7 +186,7 @@
 - [x] Validar TypeScript, 19 testes Vitest e `pnpm build:vercel` antes do novo commit.
 - [x] Recriar o projeto Vercel `cantinadochale` com as cinco variáveis públicas/admin corretas e desativar Vercel Authentication para acesso público.
 - [ ] Adicionar `SUPABASE_SERVICE_ROLE_KEY` no novo projeto Vercel para habilitar mutações administrativas e upload server-side.
-- [ ] Validar o endpoint público e o catálogo no novo deployment após publicar o commit do handler corrigido.
+- [x] Validar o endpoint público e o catálogo no novo deployment após publicar o commit do handler corrigido.
 
 - [x] Empacotar o app serverless e suas dependências dentro de `api/trpc` para eliminar `ERR_MODULE_NOT_FOUND` no runtime Vercel.
 - [x] Validar o novo bundle no endpoint público e publicar somente após resposta 200 com o catálogo.
