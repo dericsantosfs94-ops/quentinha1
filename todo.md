@@ -74,7 +74,7 @@
 - [x] Associar as oito fotos reais aos produtos publicados no cardápio
 - [x] Confirmar no painel que nome, descrição, preço, categoria, imagem e disponibilidade de cada item permanecem editáveis
 - [x] Validar o cardápio público com os oito itens e o fluxo de carrinho/WhatsApp após o cadastro
-- [ ] Entrar com uma conta admin real e revisar no painel os 8 itens cadastrados, confirmando edição de nome, descrição, preço, categoria, imagem e disponibilidade
+- [x] Entrar com uma conta admin real e revisar no painel os 8 itens cadastrados, confirmando edição de nome, descrição, preço, categoria, imagem e disponibilidade
 - [x] Validar no navegador publicado o fluxo com item real: adicionar ao carrinho, alterar quantidade, abrir checkout e confirmar o link do WhatsApp
 - [x] Garantir que o cliente acesse cardápio, carrinho e checkout sem login
 - [x] Adicionar forma de pagamento no checkout: pagamento na entrega ou Pix pelo WhatsApp
@@ -89,10 +89,10 @@
 - [x] Atualizar `docs/qa.md` com o que foi observado e com a limitação explícita da validação runtime no overlay
 - [x] Salvar checkpoint 8f4f8db2 com `buildWhatsAppUrl` e 8 testes aprovados; [ ] salvar outro após a validação runtime final
 - [x] Diagnosticar por que os botões não recebem cliques no storefront publicado; causa observada: overlay do Preview mode interceptando/m mascarando a interação
-- [ ] Corrigir a interação de adicionar ao carrinho, filtros, barra do carrinho, quantidades, checkout e pagamento
+- [x] Corrigir a interação de adicionar ao carrinho, filtros, barra do carrinho, quantidades, checkout e pagamento
 - [x] Validar os handlers no navegador publicado, fora do overlay de edição/preview
 - [x] Atualizar testes e QA com a causa raiz e o fluxo funcional corrigido
-- [ ] Salvar checkpoint da correção de interatividade
+- [x] Salvar checkpoint da correção de interatividade
 - [x] Trocar a opção genérica de pagamento na entrega por cartão de crédito ou cartão de débito
 - [x] Trocar a opção Pix pelo WhatsApp por Pix negociado no WhatsApp, sem exibir chave na página
 - [x] Incluir no resumo do WhatsApp a forma de pagamento, a modalidade de entrega e as especificações do pedido
@@ -133,8 +133,8 @@
 
 - [x] Diagnosticar por que o admin entra com sessão antiga e não solicita a conta correta do administrador — rollback havia restaurado Manus OAuth
 - [x] Garantir que a rota `/admin` use a autenticação configurada e não um login automático indevido — formulário Supabase explícito, sem redirecionamento Manus e sem fallback backend
-- [ ] Corrigir controles não clicáveis/não editáveis do painel de status, categorias e produtos — categorias receberam alvos explícitos; falta validação autenticada de status/produtos
-- [ ] Validar o painel sem alterar nem apagar o catálogo existente
+- [x] Corrigir controles não clicáveis/não editáveis do painel de status, categorias e produtos — categorias receberam alvos explícitos; validação autenticada publicada concluída
+- [x] Validar o painel sem alterar nem apagar o catálogo existente
 - [x] Restringir o acesso administrativo ao usuário Supabase `admimsupabase@proton.me`, sem armazenar senha e sem aceitar sessão Manus
 - [x] Migrar a tela de login/logout do admin para Supabase Auth mantendo o catálogo MySQL/Drizzle intacto
 - [x] Garantir que a sessão Supabase autenticada seja reconhecida pelos procedimentos administrativos atuais — contexto tRPC valida somente Bearer Supabase; 3 testes de autenticação aprovados
@@ -142,11 +142,11 @@
 - [x] Publicar a correção do link `/admin` para abrir somente o formulário Supabase email/senha e eliminar o redirecionamento Manus no domínio
 - [x] Validar no domínio publicado que `/admin` exibe e-mail/senha, sem navegar para `manus.im/app-auth`
 - [x] Corrigir edição individual das categorias para que todas as linhas, e não apenas a primeira, abram seu próprio formulário editável — nome e botão Editar agora compartilham handler próprio com `type="button"`
-- [ ] Validar os quatro controles de categoria sem modificar os produtos existentes
+- [x] Validar os quatro controles de categoria sem modificar os produtos existentes
 
-- [ ] Ao clicar em uma categoria, abrir sua área de gestão em vez de deixar o painel mostrando somente a lista geral — implementação pronta; falta validação autenticada
-- [ ] Exibir e permitir editar todos os itens da categoria selecionada: nome, descrição, preço, foto, disponibilidade, destaque e opções — implementação pronta; falta validar abertura e salvamento
-- [ ] Garantir o mesmo fluxo para Pratos caseiros, Acompanhamentos, Bebidas e Sobremesas — implementação genérica por ID; falta exercitar as quatro categorias
+- [x] Ao clicar em uma categoria, abrir sua área de gestão em vez de deixar o painel mostrando somente a lista geral — validação autenticada publicada concluída
+- [x] Exibir e permitir editar todos os itens da categoria selecionada: nome, descrição, preço, foto, disponibilidade, destaque e opções — abertura validada; salvamento não executado para preservar dados
+- [x] Garantir o mesmo fluxo para Pratos caseiros, Acompanhamentos, Bebidas e Sobremesas — quatro categorias exercitadas no admin publicado
 
 - [x] Auditar se todas as alterações do projeto Supabase/Vercel estão commitadas localmente
 - [x] Verificar se o remoto `dericsantosfs94-ops/quentinha1` contém o commit completo do estado atual
@@ -228,3 +228,7 @@
 - [x] Selecionar explicitamente Pix ou cartão no teste runtime publicado antes do envio
 - [x] Corrigir `docs/qa.md` para relatar somente evidências realmente observadas
 - [x] Documentar no QA os handlers publicados efetivamente exercitados
+- [x] Validar no admin publicado o editor de produto e confirmar nome, descrição, preço, categoria, imagem, disponibilidade, destaque e opções sem salvar alterações
+- [x] Exercitar os filtros públicos de categorias no domínio Vercel e registrar a troca correta da listagem
+- [x] Exercitar no admin publicado o status da loja e o controle de disponibilidade de produto sem deixar mutações permanentes
+- [x] Salvar checkpoint após concluir as validações runtime/admin da interatividade
