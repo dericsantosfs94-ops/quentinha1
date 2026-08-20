@@ -148,6 +148,6 @@
 - [ ] Exibir e permitir editar todos os itens da categoria selecionada: nome, descrição, preço, foto, disponibilidade, destaque e opções — implementação pronta; falta validar abertura e salvamento
 - [ ] Garantir o mesmo fluxo para Pratos caseiros, Acompanhamentos, Bebidas e Sobremesas — implementação genérica por ID; falta exercitar as quatro categorias
 
-- [ ] Auditar se todas as alterações do projeto Supabase/Vercel estão commitadas localmente
-- [ ] Verificar se o remoto `dericsantosfs94-ops/quentinha1` contém o commit completo do estado atual
-- [ ] Sincronizar e confirmar branch/commit remoto antes de novas alterações
+- [x] Auditar se todas as alterações do projeto Supabase/Vercel estão commitadas localmente
+- [x] Verificar se o remoto `dericsantosfs94-ops/quentinha1` contém o commit completo do estado atual
+- [x] Sincronizar e confirmar branch/commit remoto antes de novas alterações — branch `main`, commit `41984ba`
