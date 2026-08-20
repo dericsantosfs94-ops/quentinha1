@@ -133,7 +133,7 @@
 
 - [x] Diagnosticar por que o admin entra com sessão antiga e não solicita a conta correta do administrador — rollback havia restaurado Manus OAuth
 - [x] Garantir que a rota `/admin` use a autenticação configurada e não um login automático indevido — formulário Supabase explícito, sem redirecionamento Manus e sem fallback backend
-- [ ] Corrigir controles não clicáveis/não editáveis do painel de status, categorias e produtos
+- [ ] Corrigir controles não clicáveis/não editáveis do painel de status, categorias e produtos — categorias receberam alvos explícitos; falta validação autenticada de status/produtos
 - [ ] Validar o painel sem alterar nem apagar o catálogo existente
 - [x] Restringir o acesso administrativo ao usuário Supabase `admimsupabase@proton.me`, sem armazenar senha e sem aceitar sessão Manus
 - [x] Migrar a tela de login/logout do admin para Supabase Auth mantendo o catálogo MySQL/Drizzle intacto
@@ -141,3 +141,5 @@
 - [x] Configurar `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` com as variáveis públicas fornecidas e validar o endpoint Auth
 - [ ] Publicar a correção do link `/admin` para abrir somente o formulário Supabase email/senha e eliminar o redirecionamento Manus no domínio
 - [ ] Validar no domínio publicado que `/admin` exibe e-mail/senha, sem navegar para `manus.im/app-auth`
+- [x] Corrigir edição individual das categorias para que todas as linhas, e não apenas a primeira, abram seu próprio formulário editável — nome e botão Editar agora compartilham handler próprio com `type="button"`
+- [ ] Validar os quatro controles de categoria sem modificar os produtos existentes
