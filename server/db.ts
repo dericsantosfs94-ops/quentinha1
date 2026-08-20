@@ -1,7 +1,9 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { ENV } from "./_core/env";
 
-const supabase: SupabaseClient = createClient(ENV.supabaseUrl,   process.env.SUPABASE_SERVICE_ROLE_KEY || ENV.supabaseAnonKey, {
+const supabaseUrl = /^https?:\/\//.test(ENV.supabaseUrl) ? ENV.supabaseUrl : "https://invalid.supabase.co";
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ENV.supabaseAnonKey || "invalid-key";
+const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
 

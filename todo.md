@@ -173,3 +173,6 @@
 
 - [x] Corrigir a tela branca do domínio `cantinadochale.vercel.app` e substituir referências de imagens inacessíveis por URLs válidas do Supabase Storage.
 - [ ] Validar runtime publicado, imagens, menu e rota `/admin` antes de novo commit e deploy.
+
+- [ ] Cadastrar `SUPABASE_SERVICE_ROLE_KEY` em Production e Preview e refazer o deployment do commit corrigido sem excluir o histórico anterior.
+- [ ] Confirmar que o endpoint `/api/trpc/menu.public` deixa de retornar 500 e que o domínio final exibe produtos e imagens.
