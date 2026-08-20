@@ -203,3 +203,4 @@
 - [x] Remover do hero os botões `Ver cardápio` e endereço, mantendo o cardápio logo abaixo e o endereço apenas na seção final
 - [ ] Corrigir e testar todas as funcionalidades do painel admin: status da loja, adicionar/editar/remover itens, categorias, opções, lixeira, upload e remoção de fotos, com Playwright e commit no GitHub
 - [x] Corrigir erro crítico `menu_products_pkey` na criação de produtos, garantindo geração segura de IDs e teste de regressão no GitHub/Vercel — teste Supabase real aprovado no commit `9c6dd97`
+- [x] Corrigir o clique das categorias: nome seleciona e atualiza o painel lateral; somente o botão `Editar` abre o formulário de edição — handlers separados e build Vercel aprovado
