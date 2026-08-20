@@ -201,3 +201,5 @@
 - [ ] Corrigir controles não clicáveis do painel admin: lixeira/exclusão, status da loja, categorias, produtos e mutações protegidas, com validação e commit no GitHub
 - [x] Remover o quadrado translúcido do hero para não cobrir a foto de fundo e manter o texto legível diretamente sobre a imagem
 - [x] Remover do hero os botões `Ver cardápio` e endereço, mantendo o cardápio logo abaixo e o endereço apenas na seção final
+- [ ] Corrigir e testar todas as funcionalidades do painel admin: status da loja, adicionar/editar/remover itens, categorias, opções, lixeira, upload e remoção de fotos, com Playwright e commit no GitHub
+- [ ] Corrigir erro crítico `menu_products_pkey` na criação de produtos, garantindo geração segura de IDs e teste de regressão no GitHub/Vercel
