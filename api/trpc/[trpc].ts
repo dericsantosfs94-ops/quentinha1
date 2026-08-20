@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { createApiApp } from "../../server/app";
+import { createApiApp } from "../../server/app.ts";
 
 const app = createApiApp();
 

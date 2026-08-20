@@ -176,3 +176,14 @@
 
 - [ ] Cadastrar `SUPABASE_SERVICE_ROLE_KEY` em Production e Preview e refazer o deployment do commit corrigido sem excluir o histórico anterior.
 - [ ] Confirmar que o endpoint `/api/trpc/menu.public` deixa de retornar 500 e que o domínio final exibe produtos e imagens.
+
+- [ ] Verificar se o projeto Vercel anterior foi excluído e recriar a configuração no domínio `cantinadochale.vercel.app`.
+- [ ] Configurar todas as variáveis Supabase corretas antes do primeiro deploy do novo projeto.
+- [ ] Validar endpoint tRPC, menu, imagens e tela inicial no novo deployment antes de entregar o link.
+
+- [x] Migrar para o Supabase existente 4 categorias, 9 produtos, status da loja e 8 imagens públicas, sem exclusões.
+- [x] Corrigir o handler Vercel para importar explicitamente `server/app.ts` e eliminar `ERR_MODULE_NOT_FOUND` em produção.
+- [x] Validar TypeScript, 19 testes Vitest e `pnpm build:vercel` antes do novo commit.
+- [x] Recriar o projeto Vercel `cantinadochale` com as cinco variáveis públicas/admin corretas e desativar Vercel Authentication para acesso público.
+- [ ] Adicionar `SUPABASE_SERVICE_ROLE_KEY` no novo projeto Vercel para habilitar mutações administrativas e upload server-side.
+- [ ] Validar o endpoint público e o catálogo no novo deployment após publicar o commit do handler corrigido.

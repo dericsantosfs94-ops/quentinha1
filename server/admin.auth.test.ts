@@ -1,14 +1,17 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { appRouter } from "./routers";
+import * as db from "./db";
 import type { TrpcContext } from "./_core/context";
 
 describe("menu admin authorization", () => {
+  afterEach(() => vi.restoreAllMocks());
   it("allows an admin to read the catalog contract", async () => {
     const ctx = {
       user: { id: 1, openId: "admin", name: "Admin", email: null, loginMethod: "manus", role: "admin", createdAt: new Date(), updatedAt: new Date(), lastSignedIn: new Date() },
       req: { protocol: "https", headers: {} },
       res: { clearCookie: () => undefined },
     } as unknown as TrpcContext;
+    vi.spyOn(db, "listAdminMenu").mockResolvedValue({ categories: [], products: [], isOpen: true });
     const caller = appRouter.createCaller(ctx);
     const result = await caller.menu.admin();
     expect(result).toEqual(expect.objectContaining({ categories: expect.any(Array), products: expect.any(Array) }));
