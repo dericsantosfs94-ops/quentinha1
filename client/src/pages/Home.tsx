@@ -87,8 +87,10 @@ export default function Home() {
 
   return (
     <div className="paper-texture min-h-screen pb-24">
-      <header className="hero-mesh text-white">
-        <div className="mx-auto max-w-6xl px-5 pb-10 pt-5 sm:px-8 sm:pb-14">
+      <header className="relative overflow-hidden text-white">
+        <img src="https://xuzfsdvzgxaqspheifla.supabase.co/storage/v1/object/public/menu-products/branding/cantina-do-chale-cover.png" alt="Comida caseira servida em panela sobre mesa de madeira" className="absolute inset-0 h-full w-full object-cover object-center" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1e100b]/85 via-[#2b211d]/55 to-[#2b211d]/35" />
+        <div className="relative z-10 mx-auto max-w-6xl px-5 pb-10 pt-5 sm:px-8 sm:pb-14">
           <nav className="flex items-center justify-between" aria-label="Navegação principal">
             <a href="#inicio" className="inline-flex items-center" aria-label="Cantina do Chalé"><img src="https://xuzfsdvzgxaqspheifla.supabase.co/storage/v1/object/public/menu-products/branding/cantina-do-chale-logo.png" alt="Cantina do Chalé Restaurante" className="h-16 w-16 rounded-full object-cover shadow-[0_8px_24px_rgba(0,0,0,.2)] sm:h-20 sm:w-20" /></a>
             <div className="flex items-center gap-3"><Link href="/admin" className="hidden text-xs font-bold text-white/75 underline-offset-4 hover:text-white hover:underline sm:inline">Área administrativa</Link><div className="flex items-center gap-2 text-sm font-bold"><span className={`h-2.5 w-2.5 rounded-full ${isOpen ? "bg-[#7fe0a4] shadow-[0_0_0_4px_rgba(127,224,164,.16)]" : "bg-[#f2b84b] shadow-[0_0_0_4px_rgba(242,184,75,.16)]"}`} />{isOpen ? "Aberto hoje" : "Fechado agora"}</div></div>
@@ -107,11 +109,6 @@ export default function Home() {
           </div>
         </div>
       </header>
-
-      <section aria-label="Capa da Cantina do Chalé" className="relative overflow-hidden border-y border-[#8b1e23]/15 bg-[#2b211d]">
-        <img src="https://xuzfsdvzgxaqspheifla.supabase.co/storage/v1/object/public/menu-products/branding/cantina-do-chale-cover.png" alt="Comida caseira servida em panela sobre mesa de madeira" className="h-44 w-full object-cover object-center sm:h-60 lg:h-72" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#2b211d]/55 via-transparent to-[#2b211d]/20" />
-      </section>
 
       <main className="mx-auto max-w-6xl px-5 sm:px-8">
         <section id="cardapio" className="pt-12 sm:pt-16">
