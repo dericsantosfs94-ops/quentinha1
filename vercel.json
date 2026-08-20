@@ -4,7 +4,6 @@
   "framework": null,
   "functions": {
     "api/trpc/[trpc].ts": {
-      "runtime": "nodejs22.x",
       "maxDuration": 30
     }
   },
