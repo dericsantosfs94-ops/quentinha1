@@ -187,3 +187,6 @@
 - [x] Recriar o projeto Vercel `cantinadochale` com as cinco variáveis públicas/admin corretas e desativar Vercel Authentication para acesso público.
 - [ ] Adicionar `SUPABASE_SERVICE_ROLE_KEY` no novo projeto Vercel para habilitar mutações administrativas e upload server-side.
 - [ ] Validar o endpoint público e o catálogo no novo deployment após publicar o commit do handler corrigido.
+
+- [ ] Empacotar o app serverless e suas dependências dentro de `api/trpc` para eliminar `ERR_MODULE_NOT_FOUND` no runtime Vercel.
+- [ ] Validar o novo bundle no endpoint público e publicar somente após resposta 200 com o catálogo.
