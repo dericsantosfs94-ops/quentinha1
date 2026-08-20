@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:e2e": "node scripts/playwright-cart-check.mjs",
+    "test:e2e:admin": "node scripts/playwright-admin-check.mjs",
     "db:push": "drizzle-kit generate && drizzle-kit migrate"
   },
   "dependencies": {
