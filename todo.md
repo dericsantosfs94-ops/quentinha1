@@ -212,3 +212,4 @@
 - [x] Atualizar o teste Playwright do carrinho para usar o primeiro produto real do catálogo; validação passou com imagem carregada e subtotal de R$ 50,00
 - [x] Aplicar refinamento de layout na Home/Admin: ritmo espacial, contenção de overflow e composição responsiva
 - [x] Aplicar motion funcional e acessível na Home/Admin: feedback, entrada focal e estados de overlay com reduced-motion
+- [x] Aplicar delight seguro na Home/Admin: microcopy acolhedora, estados de pedido e detalhes visuais ligados à receita de família
